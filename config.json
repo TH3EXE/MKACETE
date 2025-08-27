@@ -1,0 +1,36 @@
+{
+  "max_resultados": 50,
+  "limiar_similaridade": 0.6,
+  "habilitar_cache": true,
+  "tamanho_cache": 1000,
+  "habilitar_busca_fuzzy": true,
+  "colunas_prioritarias": [
+    "PRESTADOR",
+    "PROCEDIMENTOS",
+    "TUSS",
+    "AMB"
+  ],
+  "pesos_colunas": {
+    "PRESTADOR": 2.0,
+    "PROCEDIMENTOS": 1.8,
+    "TUSS": 1.5,
+    "AMB": 1.5,
+    "CNPJ": 1.2,
+    "RAZAO SOCIAL": 1.3,
+    "ENDEREÇO": 1.1,
+    "ZONA": 1.0,
+    "REGIÃO": 1.0
+  },
+  "configuracoes_interface": {
+    "mostrar_tempo_busca": true,
+    "mostrar_estatisticas": true,
+    "cores_habilitadas": true,
+    "icones_habilitados": true
+  },
+  "configuracoes_busca": {
+    "busca_case_sensitive": false,
+    "busca_por_acentos": false,
+    "busca_por_espacos": true,
+    "busca_por_partes": true
+  }
+}
