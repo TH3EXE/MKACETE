@@ -1,164 +1,123 @@
-# Sistema de Busca Avançada - MKACETE: Otimizador de Busca em Dados Médicos
+# MKACETE - Sistema de Busca Avançada em Excel
 
-## 🚀 Melhorias Implementadas
+## 📌 Visão Geral
+O **MKACETE** é um sistema de busca avançada desenvolvido para facilitar a pesquisa em planilhas Excel.  
+Ele permite encontrar informações rapidamente utilizando diferentes métodos de busca (exata, por relevância e fuzzy/similaridade), com suporte a filtros, cache inteligente e estatísticas de uso.  
 
-### 1. **Mecanismo de Busca Otimizado**
-- **Busca Multi-Algoritmo**: Combina busca exata, por relevância e fuzzy
-- **Sistema de Pesos**: Colunas importantes têm prioridade maior na busca
-- **Cache Inteligente**: Armazena resultados para buscas repetidas
-- **Busca Fuzzy**: Encontra resultados similares usando similaridade de strings
+O sistema foi projetado para ser simples de usar, mesmo para pessoas sem experiência técnica, bastando ter o arquivo Excel configurado e o Python instalado.
 
-### 2. **Interface Melhorada**
-- **Cores no Terminal**: Interface colorida e organizada
-- **Ícones Visuais**: Emojis para melhor identificação dos campos
-- **Menu Hierárquico**: Navegação mais intuitiva e organizada
-- **Estatísticas em Tempo Real**: Monitoramento de performance
+---
 
-### 3. **Funcionalidades Avançadas**
-- **Filtros Múltiplos**: Busca com critérios específicos
-- **Configuração Flexível**: Arquivo JSON para personalização
-- **Tratamento de Dados**: Limpeza automática de dados vazios
-- **Performance**: Otimizações para arquivos grandes
+## ⚙️ Requisitos
 
-### 4. **Organização dos Dados**
-- **Preparação Automática**: Dados são limpos e preparados automaticamente
-- **Coluna de Busca**: Texto concatenado para busca mais rápida
-- **Validação de Dados**: Tratamento de valores NaN e vazios
-
-## 📋 Requisitos
+Antes de usar o sistema, é necessário instalar o **Python 3.8+**.  
+Em seguida, instale as bibliotecas necessárias executando no terminal:
 
 ```bash
 pip install pandas openpyxl unidecode
 ```
 
-## 🎯 Como Usar
+---
 
-### 1. **Executar o Sistema**
-```bash
-python pesquisador.py
-```
+## 🚀 Como Executar
 
-### 2. **Menu Principal**
-- **Números 1-X**: Selecionar aba para pesquisa
-- **S**: Ver estatísticas do sistema
-- **C**: Limpar cache
-- **CFG**: Salvar configuração
-- **0**: Sair
+1. Certifique-se de que o arquivo **`BATMAN.xlsx`** (base de dados) está disponível:
+   - O sistema procura primeiro no mesmo diretório do programa.
+   - Caso não encontre, tenta buscar no caminho configurado no código:
+     ```
+     C:\Users\Administrador\Documents\BATMAN.xlsx
+     ```
+   - Se for usar em outro computador, basta colocar o arquivo no mesmo diretório do script ou ajustar o caminho no código (`main()`).
 
-### 3. **Tipos de Busca**
-- **Busca Simples**: Termo único
-- **Busca com Filtros**: Termo + critérios específicos
-- **Busca Avançada**: Termo + configurações personalizadas
-
-## ⚙️ Configuração
-
-O arquivo `config.json` permite personalizar:
-
-- **Limite de resultados**
-- **Limiar de similaridade fuzzy**
-- **Habilitação de cache**
-- **Pesos das colunas**
-- **Configurações de interface**
-
-## 🔍 Algoritmos de Busca
-
-### 1. **Busca Exata**
-- Encontra correspondências exatas do termo
-- Maior prioridade nos resultados
-
-### 2. **Busca por Relevância**
-- Usa sistema de pesos por coluna
-- Bônus para início de string e palavras completas
-
-### 3. **Busca Fuzzy**
-- Similaridade de strings usando SequenceMatcher
-- Configurável via limiar de similaridade
-
-## 📊 Estatísticas
-
-O sistema monitora:
-- Total de buscas realizadas
-- Tempo médio de busca
-- Total de resultados encontrados
-- Itens em cache
-- Status da configuração
-
-## 🎨 Interface Visual
-
-- **Cores**: Diferentes cores para tipos de informação
-- **Ícones**: Emojis para identificação rápida
-- **Formatação**: Resultados organizados e legíveis
-- **Navegação**: Menu intuitivo e responsivo
-
-## 🚀 Performance
-
-- **Cache**: Resultados armazenados para buscas repetidas
-- **Otimização de Dados**: Preparação automática dos dados
-- **Busca Eficiente**: Múltiplos algoritmos otimizados
-- **Gerenciamento de Memória**: Cache com limite configurável
-
-## 🔧 Personalização
-
-### Editar Configuração
-```json
-{
-  "max_resultados": 100,
-  "limiar_similaridade": 0.7,
-  "habilitar_cache": true
-}
-```
-
-### Adicionar Novas Abas
-O sistema detecta automaticamente todas as abas do Excel e aplica formatação apropriada.
-
-## 📝 Exemplos de Uso
-
-### Busca Simples
-```
-Digite o termo para buscar: hospital
-```
-
-### Busca com Filtros
-```
-Termo: cardiologia
-Filtros:
-  PRESTADOR: centro
-  ZONA: sul
-```
-
-### Busca Avançada
-```
-Termo: ressonância
-Máximo de resultados: 25
-```
-
-## 🐛 Solução de Problemas
-
-### Erro de Cores no Terminal
-- Windows: Suporte nativo para cores ANSI
-- Linux/Mac: Funciona normalmente
-
-### Arquivo Não Encontrado
-- Verificar se `BATMAN.xlsx` está no mesmo diretório
-- Verificar permissões de leitura
-
-### Performance Lenta
-- Verificar se cache está habilitado
-- Ajustar `max_resultados` na configuração
-- Limpar cache se necessário
-
-## 🔄 Versões
-
-- **v1.0**: Sistema básico de busca
-- **v2.0**: Sistema avançado com múltiplos algoritmos
-- **v2.1**: Interface melhorada e otimizações de performance
-
-## 📞 Suporte
-
-Para dúvidas ou sugestões, consulte a documentação ou entre em contato com o desenvolvedor responsável: @TH3EXE.
+2. Execute o sistema:
+   ```bash
+   python mkacete.py
+   ```
 
 ---
 
+## 📖 Funcionamento Básico
 
-**Desenvolvido com a força da preguiça para otimizar a busca em dados médicos** 
+Ao abrir o sistema, será exibido um **menu principal** com as abas disponíveis no Excel.
 
+### Opções principais:
+- Digitar o número correspondente a uma aba → abre a pesquisa nessa aba.
+- **S** → Mostrar estatísticas do sistema (quantidade de buscas, tempo médio, etc.).
+- **C** → Limpar o cache (apagar resultados armazenados em memória).
+- **CFG** → Salvar a configuração atual no arquivo `config.json`.
+- **0** → Sair do sistema.
+
+### Pesquisando
+- Digite o termo que deseja buscar (exemplo: `hospital` ou `ressonancia`).
+- Os resultados serão exibidos com os campos disponíveis.
+- Para voltar ao menu principal, digite **V**.
+
+---
+
+## 🔍 Funcionalidades
+
+- **Busca Exata**: encontra resultados que contenham o termo digitado.
+- **Busca por Relevância**: prioriza colunas mais importantes (ex.: PRESTADOR, PROCEDIMENTO).
+- **Busca Fuzzy (Similaridade)**: localiza resultados mesmo com erros de digitação ou grafias diferentes.
+- **Filtros Opcionais**: permite restringir a busca a determinadas colunas.
+- **Cache Inteligente**: reaproveita resultados de buscas repetidas.
+- **Estatísticas**: tempo médio de resposta, total de resultados e número de buscas.
+- **Configuração Personalizável** (`config.json`):  
+  - Limite de resultados exibidos  
+  - Nível de similaridade fuzzy  
+  - Ativar/desativar cache  
+  - Pesos para colunas  
+
+---
+
+## 🔧 Configuração do Local do Arquivo Excel
+
+Por padrão, o sistema busca o arquivo em duas localizações:
+1. Diretório local onde está o script.
+2. Caminho fixo configurado no código:
+   ```python
+   caminho_completo = r'C:\Users\Administrador\Documents\BATMAN.xlsx'
+   ```
+
+Se trocar de máquina ou de diretório:
+- Coloque o arquivo `BATMAN.xlsx` na mesma pasta do programa **OU**
+- Edite a variável `caminho_completo` no código para o novo caminho do arquivo.
+
+---
+
+## 📝 Exemplo de Uso
+
+### Passo 1: Selecionar aba
+```
+--- Menu Principal ---
+[01] PRESTADORES
+[02] PROCEDIMENTOS
+[S] Estatísticas do sistema
+[C] Limpar cache
+[CFG] Salvar configuração
+[0] Sair
+Digite sua escolha: 1
+```
+
+### Passo 2: Buscar termo
+```
+Digite o termo para buscar (ou 'V' para voltar): cardiologia
+```
+
+### Resultado exibido:
+```
+--- ITEM 1 ---
+PRESTADOR: hospital central
+PROCEDIMENTO: consulta cardiologia
+TUSS: 123456
+```
+
+---
+
+## 📞 Suporte
+
+Em caso de dúvidas ou sugestões, consulte este documento ou entre em contato diretamente com o desenvolvedor responsável: **@TH3EXE**
+
+---
+
+⚡ **MKACETE - Desenvolvido para tornar a busca em planilhas mais rápida, prática e confiável.**
