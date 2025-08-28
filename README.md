@@ -155,8 +155,9 @@ Máximo de resultados: 25
 
 ## 📞 Suporte
 
-Para dúvidas ou sugestões, consulte a documentação ou entre em contato com a equipe de desenvolvimento.
+Para dúvidas ou sugestões, consulte a documentação ou entre em contato com o desenvolvedor responsável: @TH3EXE.
 
 ---
 
-**Desenvolvido com ❤️ para otimizar a busca em dados médicos** 
+
+**Desenvolvido com a força da preguiça para otimizar a busca em dados médicos** 
