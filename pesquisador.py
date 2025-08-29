@@ -6,6 +6,7 @@ from difflib import SequenceMatcher
 import json
 import warnings
 import colorama
+import subprocess
 
 warnings.filterwarnings('ignore')
 
@@ -319,12 +320,41 @@ class MecanismoBuscaAvancado:
             print(f"{Colors.FAIL}Erro ao salvar configuração: {e}{Colors.ENDC}")
 
 
+def atualizar_sistema(repo_url):
+    """
+    Verifica e atualiza o sistema a partir do repositório Git.
+    """
+    try:
+        if not os.path.exists('.git'):
+            print(f"{Colors.WARNING}Inicializando o repositório Git local...{Colors.ENDC}")
+            subprocess.run(['git', 'init'], check=True)
+            subprocess.run(['git', 'remote', 'add', 'origin', repo_url], check=True)
+            print(f"{Colors.OKGREEN}✓ Repositório Git local configurado.{Colors.ENDC}")
+
+        print(f"{Colors.OKCYAN}Buscando atualizações no repositório...{Colors.ENDC}")
+
+        # O subprocess.run com check=True levanta uma exceção se o comando falhar
+        subprocess.run(['git', 'pull', 'origin', 'main'], check=True, capture_output=True, text=True)
+
+        print(f"\n{Colors.OKGREEN}✓ O sistema foi atualizado com sucesso!{Colors.ENDC}")
+        print(f"{Colors.OKGREEN}Por favor, reinicie o programa para aplicar as alterações.{Colors.ENDC}")
+
+    except FileNotFoundError:
+        print(f"\n{Colors.FAIL}Erro: O comando 'git' não foi encontrado.{Colors.ENDC}")
+        print(f"{Colors.FAIL}Por favor, instale o Git em sua máquina e adicione-o ao PATH.{Colors.ENDC}")
+        print(f"{Colors.OKBLUE}Link para download: https://git-scm.com/downloads{Colors.ENDC}")
+    except subprocess.CalledProcessError as e:
+        print(f"\n{Colors.FAIL}Erro durante a atualização do Git:{Colors.ENDC}")
+        print(f"{Colors.FAIL}Detalhes: {e.stderr.strip()}{Colors.ENDC}")
+    except Exception as e:
+        print(f"\n{Colors.FAIL}Ocorreu um erro inesperado durante a atualização: {e}{Colors.ENDC}")
+
+
 def main():
     """Função principal que executa a interface de linha de comando."""
-    # Inicializa o colorama para que as cores funcionem em todos os terminais
     colorama.init()
+    repo_url = "https://github.com/TH3EXE/MKACETE.git"
 
-    # --- NOVO DESIGN DO CABEÇALHO ---
     print(f"\n{Colors.BOLD}{Colors.OKGREEN}")
     print("=" * 60)
     print("      MKACETE: SISTEMA DE BUSCA INTELIGENTE")
@@ -355,7 +385,6 @@ def main():
     nomes_abas = list(buscador.dados_abas.keys())
 
     while True:
-        # --- NOVO DESIGN DO MENU ---
         print(f"\n{Colors.HEADER}{'=' * 60}{Colors.ENDC}")
         print(f"{Colors.BOLD}MENU PRINCIPAL{Colors.ENDC}")
         print(f"{Colors.OKBLUE}Escolha uma opção ou selecione uma aba para buscar:{Colors.ENDC}")
@@ -366,6 +395,7 @@ def main():
         print(f"\n  {Colors.OKCYAN}[S]{Colors.ENDC} Estatísticas")
         print(f"  {Colors.OKCYAN}[C]{Colors.ENDC} Limpar Cache")
         print(f"  {Colors.OKCYAN}[CFG]{Colors.ENDC} Salvar Configuração")
+        print(f"  {Colors.OKCYAN}[U]{Colors.ENDC} Atualizar o Sistema")
         print(f"  {Colors.OKCYAN}[0]{Colors.ENDC} Sair")
         print(f"{Colors.HEADER}{'-' * 60}{Colors.ENDC}")
 
@@ -380,13 +410,19 @@ def main():
             buscador.limpar_cache()
         elif escolha == 'CFG':
             buscador.salvar_configuracao()
+        elif escolha == 'U':
+            confirmacao = input(
+                f"\n{Colors.WARNING}Deseja realmente atualizar o sistema? (S/N): {Colors.ENDC}").strip().upper()
+            if confirmacao == 'S':
+                atualizar_sistema(repo_url)
+            elif confirmacao == 'N':
+                print(f"{Colors.OKBLUE}Atualização cancelada. Voltando ao menu...{Colors.ENDC}")
+            else:
+                print(f"{Colors.FAIL}Resposta inválida. Por favor, digite 'S' para sim ou 'N' para não.{Colors.ENDC}")
         elif escolha.isdigit() and 1 <= int(escolha) <= len(nomes_abas):
             nome_aba_selecionada = nomes_abas[int(escolha) - 1]
             print(f"\n{Colors.OKGREEN}✓ Aba selecionada: '{nome_aba_selecionada}'{Colors.ENDC}")
-
-            # Nova lista de termos para voltar
             termos_voltar = ['V', 'VOLTAR']
-
             while True:
                 termo = input(
                     f"\n{Colors.OKBLUE}Qual termo deseja buscar (digite '{' ou '.join(termos_voltar)}' para voltar)?{Colors.ENDC}\n{Colors.OKGREEN}➜ {Colors.ENDC}").strip()
