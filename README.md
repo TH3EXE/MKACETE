@@ -1,4 +1,4 @@
-# Sistema de Busca Avançada - BATMAN
+# MKACETE - Sistema de Busca Avançada
 
 ## 🚀 Melhorias Implementadas
 
@@ -161,3 +161,4 @@ Para dúvidas ou sugestões, consulte a documentação ou entre em contato com o
 
 
 **Desenvolvido com a força da preguiça para otimizar a busca em dados médicos** 
+
