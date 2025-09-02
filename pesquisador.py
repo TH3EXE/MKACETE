@@ -9,6 +9,132 @@ import colorama
 
 warnings.filterwarnings('ignore')
 
+# Dicionário com todas as frases de negativa.
+DADOS_RESTRICOES = {
+    '01': {
+        'nome': 'CARÊNCIA CONTRATUAL',
+        'motivo': 'USUÁRIO EM PERÍODO DE CARÊNCIA',
+        'fraseologia': """
+Prezado(a) Sr(a). [_NM_BENEFICIARIO_]
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+NO MOMENTO SUA SOLICITAÇÃO: (procedimento) FOI INDEFERIDA POR CARÊNCIA CONTRATUAL.
+
+EXCETO CONSULTA E EXAMES DE URGÊNCIA SOLICITAMOS UMA NOVA ABERTURA DE DEMANDA PARA ESSE PROCEDIMENTO A PARTIR DA DATA: (00/00/0000).
+
+EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
+"""
+    },
+    '02': {
+        'nome': 'CONTRATO NÃO INICIADO EM PERÍODO DE VIGÊNCIA',
+        'motivo': 'CONTRATO SÓ INICIA VALIDADE EM XX/XX/XXXX',
+        'fraseologia': """
+Prezado(a) Sr(a). [_NM_BENEFICIARIO_]
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. O contrato de plano de saúde individual ou familiar tem início de vigência a partir da data de assinatura da proposta de adesão, da assinatura do contrato ou da data de pagamento da mensalidade, o que ocorrer primeiro. No tocante aos contratos coletivos, a operadora de saúde e a pessoa jurídica contratante possuem liberdade para negociar o início da vigência, desde que até a data pactuada não haja qualquer pagamento. Verificando o contrato de Vossa Senhoria, identificou-se que o mesmo está com início de vigência programado para o dia XX/XX/XXXX. Dessa forma, apenas após tal data é que os serviços cobertos pela operadora poderão ser solicitados, observados os prazos de carências contratuais e legais.
+
+EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
+"""
+    },
+    '04': {
+        'nome': 'EXCLUSÃO DE COBERTURA (AMBULATORIAL)',
+        'motivo': 'PLANO CONTRATADO NAO COBERTO',
+        'fraseologia': """
+Prezado(a) Sr(a). [_NM_BENEFICIARIO_]
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. Após análise da solicitação de (colocar o nome do procedimento), esta restou indeferida, pois verificou-se que o(a) beneficiário(a) é contratante de plano com segmentação exclusivamente AMBULATORIAL, registrado na Agência Nacional de Saúde Suplementar - ANS sob o nº XXX, sem direito à internação e/ou cirurgias. É válido salientar, que o plano de cobertura ambulatorial não abrange quaisquer atendimentos que necessitem de suporte em internação hospitalar, uma vez que a referida cobertura compreende, tão somente, consultas médicas em clínicas ou consultórios, exames, tratamento e demais procedimentos ambulatoriais, nos termos inciso I, do art. 12 da Lei Federal n° 9.656/1998 e do art. 18 da Resolução Normativa n°. 465/2021 da Agência Nacional de Saúde Suplementar. Dessa forma, o pedido para autorização do procedimento de (colocar o nome do procedimento), não foi aprovado, por não se enquadrar em condições de cobertura contratualmente pactuadas. EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
+"""
+    },
+    '08': {
+        'nome': 'LIMITE CONTRATUAL',
+        'motivo': 'PLANO CONVENCIONAL COM LIMITACAO CONTRATUAL',
+        'fraseologia': """
+Prezado(a) Sr(a). [_NM_BENEFICIARIO_]
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. O contrato de V.S.ª. trata-se de plano antigo, ou seja, foi comercializado antes da vigência da Lei 9.656/98. Tais planos possuem como característica a auto aplicabilidade de suas cláusulas, principalmente quanto aos eventos cobertos e excluídos. Sendo assim, a relação contratual estabelecida entre as partes é regida pelos termos exatos do contrato firmado. Em análise, pudemos verificar que o limite contratual foi excedido. Diante do exposto, a solicitação para autorização do procedimento acima mencionado não foi aprovada, por se tratar de pedido não coberto em contrato de plano de saúde não regulamentado, isto é, anterior à vigência da Lei nº 9.656/98.
+
+EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
+"""
+    },
+    '12': {
+        'nome': 'INADIMPLÊNCIA CONTRATO COLETIVO',
+        'motivo': 'PLANO EMPRESARIAL COM FATURA “EM ABERTO”',
+        'fraseologia': """
+PREZADO(A) SR(A). [_NM_BENEFICIARIO_]
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+INFORMAMOS QUE, PARA DAR CONTINUIDADE AO ATENDIMENTO, É NECESSÁRIO QUE O(A) SENHOR(A) ENTRE EM CONTATO COM O SETOR DE RECURSOS HUMANOS (RH) DA SUA EMPRESA.
+
+EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
+"""
+    },
+    '16': {
+        'nome': 'ÁREA DE ATUAÇÃO CONTRATUAL INCOMPATÍVEL',
+        'motivo': 'REDE INCOMPATÍVEL COM O PLANO CONTRATADO',
+        'fraseologia': """
+PREZADO(A) SR(A). [_NM_BENEFICIARIO_]
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde determinado pela Resolução Normativa n°. 465/2021, bem como, os critérios estabelecidos pela Lei Federal n°. 9.656/1998. Vossa Senhoria possui plano vinculado a esta operadora registrado na ANS sob o número XXX, com área de abrangência geográfica Grupo de XXX. Cumpre esclarecer que as operadoras de planos de assistência à saúde podem ofertar planos com área de abrangência Nacional, Estadual, de Grupo de Estados, Municipal ou de Grupo de Municípios, conforme esclarece item 4, do Anexo, da Resolução Normativa N° 543/2022, da Agência Nacional de Saúde Suplementar. Assim, vale enfatizar que o plano de saúde tem como área de atuação, tão somente, nos municípios ou estados albergados no referido tipo de plano contratado, com atendimento através dos médicos e prestadores indicados no Manual de Orientação do Beneficiário e Portal da Operadora, dentre os quais, não inclui a cidade de XXX. Dessa forma, o pedido para autorização de PROCEDIMENTO acima mencionado, em atenção ao contrato celebrado, não foi aprovado, por não se enquadrar em condições de cobertura estabelecidas no instrumento contratual, haja vista estar fora da área de abrangência.
+
+EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
+"""
+    },
+    '24': {
+        'nome': 'PERDA QUALIDADE DE BENEFICIÁRIO',
+        'motivo': 'IMPOSSÍVEL AUTORIZAÇÃO SENHA, USUÁRIO NÃO ATIVO',
+        'fraseologia': """
+PREZADO(A) SR(A). [_NM_BENEFICIARIO_]
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. Após análise da solicitação de (colocar o nome do procedimento), esta restou indeferida, pois em conformidade com o Contrato, os serviços médicos prestados por esta operadora foram rescindidos, visto que vossa senhoria perdeu a qualidade de beneficiário.
+
+SOLICITAMOS UMA NOVA ABERTURA COM CARTEIRINHA ATIVA.
+
+EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
+"""
+    },
+    '26': {
+        'nome': 'USUÁRIO É ATENDIDO POR OUTRA ASSISTÊNCIA',
+        'motivo': 'USUÁRIO É ATENDIDO POR OUTRA ASSISTÊNCIA MÉDICA',
+        'fraseologia': """
+PREZADO(A) SR(A). [_NM_BENEFICIARIO_]
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+NO MOMENTO SUA SOLICITAÇÃO FOI INDEFERIDA POR USUÁRIO É ATENDIDO POR OUTRA ASSISTÊNCIA.
+
+A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. A Operadora deve garantir o acesso do beneficiário aos serviços e procedimentos definidos no Rol de Procedimentos e Eventos em Saúde da ANS, conforme os prazos da Resolução Normativa nº. 566/2022. A Resolução Normativa nº. 465/2021, que estabelece o Rol de Procedimentos e Eventos em Saúde, referência básica para cobertura assistencial mínima, em seu artigo 1º, §2º, assim dispõe: “A cobertura assistencial estabelecida por esta Resolução Normativa e seus anexos será obrigatória independente da circunstância e do local de ocorrência do evento que ensejar o atendimento, respeitadas as segmentações, a área de atuação e de abrangência, a rede de prestadores de serviços contratada, credenciada ou referenciada da operadora, [...]”
+"""
+    },
+    '48': {
+        'nome': 'PLANO AMBULATORIAL (SEM INTERNAÇÃO)',
+        'motivo': 'PLANO DO USUARIO SOMENTE AMBULATORIAL',
+        'fraseologia': """
+PREZADO(A) SR(A). [_NM_BENEFICIARIO_]
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. Após análise da solicitação de (colocar o nome do procedimento), esta restou indeferida, pois verificou-se que o(a) beneficiário(a) é contratante de plano com segmentação exclusivamente AMBULATORIAL, registrado na Agência Nacional de Saúde Suplementar - ANS sob o nº XXX, sem direito à internação e/ou cirurgias. É válido salientar, que o plano de cobertura ambulatorial não abrange quaisquer atendimentos que necessitem de suporte em internação hospitalar, uma vez que a referida cobertura compreende, tão somente, consultas médicas em clínicas ou consultórios, exames, tratamento e demais procedimentos ambulatoriais, nos termos inciso I, do art. 12 da Lei Federal n° 9.656/1998 e do art. 18 da Resolução Normativa n°. 465/2021 da Agência Nacional de Saúde Suplementar. Dessa forma, o pedido para autorização do procedimento de (colocar o nome do procedimento), não foi aprovado, por não se enquadrar em condições de cobertura contratualmente pactuadas.
+
+EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
+"""
+    },
+    '49': {
+        'nome': 'PLANO HOSPITALAR (SEM AMBULATORIAL)',
+        'motivo': 'PLANO DO BENEFICIARIO SOMENTE HOSPITALAR',
+        'fraseologia': """
+PREZADO(A) SR(A). [_NM_BENEFICIARIO_]
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. Após análise da solicitação de (colocar o nome do procedimento), esta restou indeferida, pois verificou-se que o beneficiário(a) é contratante de plano com segmentação exclusivamente HOSPITALAR, registrado na Agência Nacional de Saúde Suplementar - ANS sob o nº XXX, não incluindo atendimentos ambulatoriais para fins de diagnóstico, terapia ou recuperação. É válido salientar que, o plano de cobertura hospitalar compreende os atendimentos realizados em todas as modalidades de internação hospitalar e os atendimentos caracterizados como de urgência e emergência, nos termos inciso II, do art. 12 da Lei Federal n° 9.656/1998 e do art. 19 da Resolução Normativa n°. 465/2021 da Agência Nacional de Saúde Suplementar. Dessa forma, o pedido para autorização do procedimento de (colocar o nome do procedimento), não foi aprovado, por não se enquadrar em condições de cobertura contratualmente pactuadas.
+
+EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
+"""
+    }
+}
+
 
 class Colors:
     """Define cores para estilizar o texto no terminal."""
@@ -345,12 +471,11 @@ class MecanismoBuscaAvancado:
             print(f"{Colors.RED}Falha ao salvar a configuração: {e}{Colors.ENDC}")
 
 
-def gerar_fraseologia():
-    """Gera uma fraseologia com base em informações fornecidas pelo usuário."""
-    print(f"\n{Colors.LIGHT_CYAN}--- GERADOR DE FRASEOLOGIA ---{Colors.ENDC}")
+def gerar_fraseologia_positiva():
+    """Gera uma fraseologia positiva com base em informações fornecidas pelo usuário."""
+    print(f"\n{Colors.LIGHT_CYAN}--- GERADOR DE FRASEOLOGIA DE AUTORIZAÇÃO ---{Colors.ENDC}")
     print(f"{Colors.YELLOW}Preencha os campos para criar a fraseologia.{Colors.ENDC}")
 
-    # Coleta as informações iniciais
     try:
         num_procedimentos = int(
             input(f"{Colors.LIGHT_BLUE}Quantos procedimentos deseja adicionar? {Colors.ENDC}").strip())
@@ -361,7 +486,6 @@ def gerar_fraseologia():
         print(f"{Colors.RED}Entrada inválida. Por favor, digite um número inteiro.{Colors.ENDC}")
         return
 
-    # Inicia a construção da fraseologia
     fraseologia_completa = f"""
 Prezado(a) Sr(a). [_NM_BENEFICIARIO_]
 NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
@@ -369,7 +493,6 @@ NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
 SUA SOLICITAÇÃO DE AUTORIZAÇÃO PARA EXAME FOI RECEBIDA COM OS SEGUINTES DADOS:
 """
 
-    # Coleta os dados para cada procedimento e os adiciona à fraseologia
     for i in range(num_procedimentos):
         print(f"\n{Colors.LIGHT_BLUE}--- Dados do Procedimento {i + 1} ---{Colors.ENDC}")
         procedimento = input(f"{Colors.OKCYAN}Procedimento: {Colors.ENDC}").strip()
@@ -391,6 +514,50 @@ EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PE
     print(fraseologia_completa)
     print(f"{Colors.LIGHT_CYAN}--------------------{Colors.ENDC}")
     input(f"\n{Colors.OKBLUE}Pressione ENTER para voltar ao menu principal...{Colors.ENDC}")
+
+
+def gerar_fraseologia_negativa():
+    """Gera fraseologia de negativa com base nas restrições predefinidas."""
+    print(f"\n{Colors.LIGHT_CYAN}--- GERADOR DE FRASEOLOGIA DE NEGATIVA ---{Colors.ENDC}")
+    print(f"{Colors.YELLOW}Selecione a restrição para gerar a fraseologia:{Colors.ENDC}")
+
+    opcoes = list(DADOS_RESTRICOES.keys())
+    colunas = 2
+    abas_por_coluna = (len(opcoes) + colunas - 1) // colunas
+
+    max_key_len = max(len(key) for key in opcoes) if opcoes else 0
+    max_nome_len = max(len(DADOS_RESTRICOES[key]['nome']) for key in opcoes) if opcoes else 0
+
+    for i in range(abas_por_coluna):
+        linha = ""
+        for j in range(colunas):
+            index = i + j * abas_por_coluna
+            if index < len(opcoes):
+                key = opcoes[index]
+                nome = DADOS_RESTRICOES[key]['nome']
+                linha += f"  {Colors.OKCYAN}► [{key:<{max_key_len}}]{Colors.ENDC} {nome:<{max_nome_len}} "
+        if linha.strip():
+            print(linha)
+
+    print(f"\n{Colors.LIGHT_BLUE}--- OUTRAS OPÇÕES ---{Colors.ENDC}")
+    print(f"  {Colors.OKCYAN}► [V]{Colors.ENDC} Voltar ao menu principal")
+
+    while True:
+        escolha = input(f"\n{Colors.LIGHT_GREEN}Comando: {Colors.ENDC}").strip().upper()
+
+        if escolha == 'V':
+            break
+
+        if escolha in DADOS_RESTRICOES:
+            dados = DADOS_RESTRICOES[escolha]
+            print(f"\n{Colors.LIGHT_GREEN}✓ Fraseologia de negativa gerada para: {dados['nome']}!{Colors.ENDC}")
+            print(f"{Colors.LIGHT_CYAN}--- COPIE E COLE ---{Colors.ENDC}")
+            print(dados['fraseologia'])
+            print(f"{Colors.LIGHT_CYAN}--------------------{Colors.ENDC}")
+            input(f"\n{Colors.OKBLUE}Pressione ENTER para voltar ao menu de negativas...{Colors.ENDC}")
+            return gerar_fraseologia_negativa()
+        else:
+            print(f"{Colors.RED}✗ Erro de sintaxe: Comando não reconhecido. Tente novamente.{Colors.ENDC}")
 
 
 def main():
@@ -440,6 +607,13 @@ def main():
         print(center_text(f"{Colors.YELLOW}Selecione uma opção ou setor de dados:{Colors.ENDC}",
                           terminal_width + 12))
 
+        # Agrupar e exibir as opções de Fraseologia
+        print(f"\n{center_text(f'{Colors.UNDERLINE}>>> FERRAMENTAS DE TEXTO <<<{Colors.ENDC}', terminal_width + 2)}")
+        print(f"  {Colors.OKCYAN}► [F]{Colors.ENDC} Gerar Fraseologia de Autorização")
+        print(f"  {Colors.OKCYAN}► [N]{Colors.ENDC} Gerar Fraseologia de Negativa")
+
+        # Exibir as abas de dados em colunas
+        print(f"\n{center_text(f'{Colors.UNDERLINE}>>> SETORES DE DADOS <<<{Colors.ENDC}', terminal_width + 2)}")
         colunas = 2
         total_abas = len(nomes_abas)
         abas_por_coluna = (total_abas + colunas - 1) // colunas
@@ -466,13 +640,13 @@ def main():
             if linha.strip():
                 print(linha)
 
-        # Adiciona a nova opção no menu
-        print(center_text(f"\n  {Colors.OKCYAN}► [F]{Colors.ENDC} Gerar Fraseologia", terminal_width + 12))
-        print(center_text(f"  {Colors.OKCYAN}► [S]{Colors.ENDC} Relatório de status", terminal_width + 12))
-        print(center_text(f"  {Colors.OKCYAN}► [C]{Colors.ENDC} Limpar cache de busca", terminal_width + 12))
-        print(
-            center_text(f"  {Colors.OKCYAN}► [CFG]{Colors.ENDC} Salvar configurações do sistema", terminal_width + 12))
-        print(center_text(f"  {Colors.OKCYAN}► [0]{Colors.ENDC} Encerrar sistema", terminal_width + 12))
+        # Agrupar e exibir as opções de funções do sistema
+        print(f"\n{center_text(f'{Colors.UNDERLINE}>>> FERRAMENTAS DO SISTEMA <<<{Colors.ENDC}', terminal_width + 2)}")
+        print(f"  {Colors.OKCYAN}► [S]{Colors.ENDC} Relatório de status")
+        print(f"  {Colors.OKCYAN}► [C]{Colors.ENDC} Limpar cache de busca")
+        print(f"  {Colors.OKCYAN}► [CFG]{Colors.ENDC} Salvar configurações do sistema")
+        print(f"  {Colors.OKCYAN}► [0]{Colors.ENDC} Encerrar sistema")
+
         print(f"{Colors.LIGHT_BLUE}{center_text('═' * 60, terminal_width)}{Colors.ENDC}")
 
         escolha = input(f"{Colors.LIGHT_GREEN}Comando: {Colors.ENDC}").strip().upper()
@@ -488,7 +662,9 @@ def main():
         elif escolha == 'CFG':
             buscador.salvar_configuracao()
         elif escolha == 'F':
-            gerar_fraseologia()
+            gerar_fraseologia_positiva()
+        elif escolha == 'N':
+            gerar_fraseologia_negativa()
         elif escolha.isdigit() and 1 <= int(escolha) <= len(nomes_abas):
             nome_aba_selecionada = nomes_abas[int(escolha) - 1]
             print(f"\n{Colors.BOLD}{Colors.LIGHT_CYAN}--- STATUS DO SISTEMA ---{Colors.ENDC}")

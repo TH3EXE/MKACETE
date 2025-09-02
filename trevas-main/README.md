@@ -1,76 +1,55 @@
-# Sistema de Busca Avançada - BATMAN
+# MKACETE - Sistema de Busca Avançada
 
-## 🚀 Melhorias Implementadas
+## 🚀 Manual Rápido do MKACETE
+Manual Rápido do MKACETE
+Este manual rápido vai ajudar você a colocar o sistema para funcionar.
 
-### 1. **Mecanismo de Busca Otimizado**
-- **Busca Multi-Algoritmo**: Combina busca exata, por relevância e fuzzy
-- **Sistema de Pesos**: Colunas importantes têm prioridade maior na busca
-- **Cache Inteligente**: Armazena resultados para buscas repetidas
-- **Busca Fuzzy**: Encontra resultados similares usando similaridade de strings
+### 1. **O que Instalar**
 
-### 2. **Interface Melhorada**
-- **Cores no Terminal**: Interface colorida e organizada
-- **Ícones Visuais**: Emojis para melhor identificação dos campos
-- **Menu Hierárquico**: Navegação mais intuitiva e organizada
-- **Estatísticas em Tempo Real**: Monitoramento de performance
+Você só precisa de dois programas no seu computador. Clique nos links para baixar:
 
-### 3. **Funcionalidades Avançadas**
-- **Filtros Múltiplos**: Busca com critérios específicos
-- **Configuração Flexível**: Arquivo JSON para personalização
-- **Tratamento de Dados**: Limpeza automática de dados vazios
-- **Performance**: Otimizações para arquivos grandes
+- **Python**: https://www.python.org/downloads/
+- Importante: Durante a instalação, marque a caixa "Add Python to PATH".
+  
+- **Git**: https://git-scm.com/downloads/win
+
+### 2. **Configurar o Projeto**
+- **Baixe o código do projeto MKACETE**: clicando aqui: https://github.com/TH3EXE/MKACETE.
+- Extraia o arquivo ZIP e coloque a sua planilha BATMAN.xlsx na mesma pasta.
+
+### 3. **Rodar o Sistema**
+- **Abra o Prompt de Comando do Windows.**
+- **Use o comando cd para ir até a pasta onde estão os arquivos. Por exemplo:**: cd C:\Users\SeuUsuario\Downloads\MKACETE
+- **Instale as bibliotecas que o sistema precisa com este comando:**: py -m pip install pandas openpyxl unidecode colorama
+- **Para iniciar o sistema, digite:**: python pesquisador.py
 
 ### 4. **Organização dos Dados**
 - **Preparação Automática**: Dados são limpos e preparados automaticamente
 - **Coluna de Busca**: Texto concatenado para busca mais rápida
 - **Validação de Dados**: Tratamento de valores NaN e vazios
 
-## 📋 Requisitos
+- Pronto! O sistema vai abrir e você pode começar a usar.
 
-```bash
-pip install pandas openpyxl unidecode
-```
 
-## 🎯 Como Usar
-
-### 1. **Executar o Sistema**
-```bash
-python pesquisador.py
-```
-
-### 2. **Menu Principal**
+### 1.1. **Menu Principal**
 - **Números 1-X**: Selecionar aba para pesquisa
 - **S**: Ver estatísticas do sistema
 - **C**: Limpar cache
 - **CFG**: Salvar configuração
+- **U**: Atualizar o Sistema
 - **0**: Sair
-
-### 3. **Tipos de Busca**
-- **Busca Simples**: Termo único
-- **Busca com Filtros**: Termo + critérios específicos
-- **Busca Avançada**: Termo + configurações personalizadas
-
-## ⚙️ Configuração
-
-O arquivo `config.json` permite personalizar:
-
-- **Limite de resultados**
-- **Limiar de similaridade fuzzy**
-- **Habilitação de cache**
-- **Pesos das colunas**
-- **Configurações de interface**
 
 ## 🔍 Algoritmos de Busca
 
-### 1. **Busca Exata**
+### 1.2. **Busca Exata**
 - Encontra correspondências exatas do termo
 - Maior prioridade nos resultados
 
-### 2. **Busca por Relevância**
+### 1.3. **Busca por Relevância**
 - Usa sistema de pesos por coluna
 - Bônus para início de string e palavras completas
 
-### 3. **Busca Fuzzy**
+### 1.4. **Busca Fuzzy**
 - Similaridade de strings usando SequenceMatcher
 - Configurável via limiar de similaridade
 
@@ -86,7 +65,6 @@ O sistema monitora:
 ## 🎨 Interface Visual
 
 - **Cores**: Diferentes cores para tipos de informação
-- **Ícones**: Emojis para identificação rápida
 - **Formatação**: Resultados organizados e legíveis
 - **Navegação**: Menu intuitivo e responsivo
 
@@ -161,3 +139,5 @@ Para dúvidas ou sugestões, consulte a documentação ou entre em contato com o
 
 
 **Desenvolvido com a força da preguiça para otimizar a busca em dados médicos** 
+
+
