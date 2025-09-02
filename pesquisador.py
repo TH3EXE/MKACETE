@@ -248,38 +248,40 @@ class MecanismoBuscaAvancado:
             print(f"{Colors.LIGHT_GREEN}└─ Tempo de execução: {Colors.BOLD}{tempo_busca:.3f}s{Colors.ENDC}")
         print(f"{Colors.LIGHT_CYAN}-----------------------------------------{Colors.ENDC}")
 
-        # --- NOVA LÓGICA DE EXIBIÇÃO POR CATEGORIA ---
-        if nome_aba.lower() == 'infiltracao':
-            self._exibir_resultados_por_categoria(resultados)
+        if 'infiltracao' in nome_aba.lower() or 'medicacao' in nome_aba.lower():
+            self._exibir_resultados_por_tema(resultados)
         else:
             self._exibir_generico_futurista(resultados)
 
         print(f"\n{Colors.LIGHT_CYAN}-----------------------------------------{Colors.ENDC}")
 
-    def _exibir_resultados_por_categoria(self, resultados):
+    def _exibir_resultados_por_tema(self, resultados):
         """
-        Organiza e exibe os resultados da aba 'infiltracao' em blocos separados.
+        Organiza e exibe os resultados com base em temas de busca.
+        Mais flexível para diferentes abas de infiltração/medicação.
         """
-        # Normaliza o termo de busca para a categorização
-        resultados['_TEXTO_BUSCA'] = resultados['_TEXTO_BUSCA'].apply(lambda x: unidecode(str(x)).lower())
+        temas = {
+            "INFILTRAÇÃO / BLOQUEIO": ['infiltracao', 'infiltração', 'bloqueio'],
+            "RETIRADA DE MEDICAMENTO": ['retirada', 'remocao', 'remover'],
+        }
 
-        # Separa os resultados em categorias
-        mask_infiltracao = resultados['_TEXTO_BUSCA'].str.contains('infiltracao|bloqueio|infiltração')
-        mask_retirada = resultados['_TEXTO_BUSCA'].str.contains('retirada|remocao|remover')
+        # Cria uma cópia para evitar modificar o DataFrame original no loop
+        df_restantes = resultados.copy()
 
-        # Cria dataframes para cada categoria
-        df_infiltracao = resultados[mask_infiltracao]
-        df_retirada = resultados[mask_retirada]
+        for titulo_tema, palavras_chave in temas.items():
+            # Cria uma máscara para encontrar as linhas que contêm as palavras-chave do tema
+            mask = df_restantes['_TEXTO_BUSCA'].str.contains('|'.join(palavras_chave), na=False)
+            df_tema = df_restantes[mask]
 
-        # Filtra os resultados que não se encaixam nas categorias acima
-        df_outros = resultados[~(mask_infiltracao | mask_retirada)]
+            if not df_tema.empty:
+                self._exibir_bloco_categoria(titulo_tema, df_tema)
 
-        # Exibe os blocos
-        self._exibir_bloco_categoria("Resultados para INFILTRAÇÃO", df_infiltracao)
-        self._exibir_bloco_categoria("Resultados para RETIRADA DE MEDICAÇÃO", df_retirada)
+            # Remove os resultados já exibidos do DataFrame de 'restantes'
+            df_restantes = df_restantes[~mask]
 
-        if not df_outros.empty:
-            self._exibir_bloco_categoria("Outros Resultados", df_outros)
+        # Exibe quaisquer resultados que não se encaixaram em nenhum tema
+        if not df_restantes.empty:
+            self._exibir_bloco_categoria("Outros Resultados (Sem Categoria)", df_restantes)
 
     def _exibir_bloco_categoria(self, titulo, df):
         """
@@ -292,18 +294,27 @@ class MecanismoBuscaAvancado:
     def _exibir_generico_futurista(self, df):
         """Exibe os dados de forma futurista, com cores e organização."""
         for i, (_, row) in enumerate(df.iterrows(), 1):
-            print(f"\n{Colors.BOLD}{Colors.LIGHT_CYAN}═══════════════ [{i:03d}] Registro de Dados ═══════════════{Colors.ENDC}")
+            print(
+                f"\n{Colors.BOLD}{Colors.LIGHT_CYAN}═══════════════ [{i:03d}] Resultado ═══════════════{Colors.ENDC}")
 
-            # Padrões de cores para os campos
             key_color = Colors.LIGHT_BLUE
             value_color = Colors.OKGREEN
 
+            # Colunas prioritárias para as abas 17 e 18
+            colunas_prioritarias = ['PRESTADOR', 'ZONA/REGIÃO', 'CNPJ', 'CD PESSOA']
+
+            # Exibe as colunas prioritárias primeiro
+            for col in colunas_prioritarias:
+                if col in row and str(row[col]).strip():
+                    print(f"  {key_color}{str(col).upper()}:{Colors.ENDC} {value_color}{row[col]}{Colors.ENDC}")
+
+            # Exibe as demais colunas
             for col, val in row.items():
-                if str(val).strip() and col != '_TEXTO_BUSCA':
+                if str(val).strip() and col != '_TEXTO_BUSCA' and col not in colunas_prioritarias:
                     print(f"  {key_color}{str(col).upper()}:{Colors.ENDC} {value_color}{val}{Colors.ENDC}")
 
-            print(f"{Colors.BOLD}{Colors.LIGHT_CYAN}═══════════════════════════════════════════════════════{Colors.ENDC}")
-
+            print(
+                f"{Colors.BOLD}{Colors.LIGHT_CYAN}═══════════════════════════════════════════════════════{Colors.ENDC}")
 
     def mostrar_estatisticas(self):
         """Mostra estatísticas de uso do sistema."""
@@ -334,17 +345,63 @@ class MecanismoBuscaAvancado:
             print(f"{Colors.RED}Falha ao salvar a configuração: {e}{Colors.ENDC}")
 
 
+def gerar_fraseologia():
+    """Gera uma fraseologia com base em informações fornecidas pelo usuário."""
+    print(f"\n{Colors.LIGHT_CYAN}--- GERADOR DE FRASEOLOGIA ---{Colors.ENDC}")
+    print(f"{Colors.YELLOW}Preencha os campos para criar a fraseologia.{Colors.ENDC}")
+
+    # Coleta as informações iniciais
+    try:
+        num_procedimentos = int(
+            input(f"{Colors.LIGHT_BLUE}Quantos procedimentos deseja adicionar? {Colors.ENDC}").strip())
+        if num_procedimentos <= 0:
+            print(f"{Colors.RED}O número de procedimentos deve ser maior que zero.{Colors.ENDC}")
+            return
+    except ValueError:
+        print(f"{Colors.RED}Entrada inválida. Por favor, digite um número inteiro.{Colors.ENDC}")
+        return
+
+    # Inicia a construção da fraseologia
+    fraseologia_completa = f"""
+Prezado(a) Sr(a). [_NM_BENEFICIARIO_]
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+SUA SOLICITAÇÃO DE AUTORIZAÇÃO PARA EXAME FOI RECEBIDA COM OS SEGUINTES DADOS:
+"""
+
+    # Coleta os dados para cada procedimento e os adiciona à fraseologia
+    for i in range(num_procedimentos):
+        print(f"\n{Colors.LIGHT_BLUE}--- Dados do Procedimento {i + 1} ---{Colors.ENDC}")
+        procedimento = input(f"{Colors.OKCYAN}Procedimento: {Colors.ENDC}").strip()
+        senha = input(f"{Colors.OKCYAN}Senha: {Colors.ENDC}").strip()
+        prestador = input(f"{Colors.OKCYAN}Prestador: {Colors.ENDC}").strip()
+
+        fraseologia_completa += f"""
+PROCEDIMENTO: {procedimento}
+SENHA: {senha}
+PRESTADOR: {prestador}
+"""
+
+    fraseologia_completa += f"""
+EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
+"""
+
+    print(f"\n{Colors.LIGHT_GREEN}✓ Fraseologia gerada com sucesso!{Colors.ENDC}")
+    print(f"{Colors.LIGHT_CYAN}--- COPIE E COLE ---{Colors.ENDC}")
+    print(fraseologia_completa)
+    print(f"{Colors.LIGHT_CYAN}--------------------{Colors.ENDC}")
+    input(f"\n{Colors.OKBLUE}Pressione ENTER para voltar ao menu principal...{Colors.ENDC}")
+
+
 def main():
     """Função principal que executa a interface de linha de comando."""
     colorama.init()
 
-    # Get terminal size
     try:
         terminal_width = os.get_terminal_size().columns
     except OSError:
-        terminal_width = 80  # default if terminal size is not available
+        terminal_width = 80
 
-    # Helper function to center text
     def center_text(text, width):
         return f"{text}".center(width)
 
@@ -380,26 +437,20 @@ def main():
         print(f"\n{Colors.LIGHT_BLUE}{center_text('═' * 60, terminal_width)}{Colors.ENDC}")
         print(
             center_text(f"{Colors.BOLD}{Colors.LIGHT_CYAN}--- MENU DO TERMINAL ---{Colors.ENDC}", terminal_width + 12))
-        print(center_text(f"{Colors.YELLOW}Selecione um setor de dados para iniciar a busca:{Colors.ENDC}",
+        print(center_text(f"{Colors.YELLOW}Selecione uma opção ou setor de dados:{Colors.ENDC}",
                           terminal_width + 12))
 
-        # Novo layout em colunas
         colunas = 2
         total_abas = len(nomes_abas)
         abas_por_coluna = (total_abas + colunas - 1) // colunas
 
-        # Calculate a larger padding to help with centering
-        max_aba_length = max(len(aba) for aba in nomes_abas)
-        col_width = max_aba_length + 8  # Extra padding for number and symbol
-        menu_width = colunas * col_width
-
-        # Ensure a minimal width for alignment, even with a small terminal
+        max_aba_length = max(len(aba) for aba in nomes_abas) if nomes_abas else 0
+        col_width = max_aba_length + 8
         min_col_width = 30
         if col_width < min_col_width:
             col_width = min_col_width
 
-        # Calculate the proper left margin for centering the entire block
-        total_menu_width = colunas * (col_width + 2) # +2 for "  " prefix
+        total_menu_width = colunas * (col_width + 2)
         left_margin = max(0, (terminal_width - total_menu_width) // 2)
 
         for i in range(abas_por_coluna):
@@ -410,15 +461,14 @@ def main():
                     nome_aba = nomes_abas[index]
                     linha += f"  {Colors.OKCYAN}► [{index + 1:02d}]{Colors.ENDC} {nome_aba:<{col_width - 8}}"
                 else:
-                    # Pad with spaces to keep the columns aligned
                     linha += " " * (col_width + 2)
 
-            # Only print the line if it contains content
             if linha.strip():
                 print(linha)
 
-
-        print(center_text(f"\n  {Colors.OKCYAN}► [S]{Colors.ENDC} Relatório de status", terminal_width + 12))
+        # Adiciona a nova opção no menu
+        print(center_text(f"\n  {Colors.OKCYAN}► [F]{Colors.ENDC} Gerar Fraseologia", terminal_width + 12))
+        print(center_text(f"  {Colors.OKCYAN}► [S]{Colors.ENDC} Relatório de status", terminal_width + 12))
         print(center_text(f"  {Colors.OKCYAN}► [C]{Colors.ENDC} Limpar cache de busca", terminal_width + 12))
         print(
             center_text(f"  {Colors.OKCYAN}► [CFG]{Colors.ENDC} Salvar configurações do sistema", terminal_width + 12))
@@ -437,12 +487,14 @@ def main():
             buscador.limpar_cache()
         elif escolha == 'CFG':
             buscador.salvar_configuracao()
+        elif escolha == 'F':
+            gerar_fraseologia()
         elif escolha.isdigit() and 1 <= int(escolha) <= len(nomes_abas):
             nome_aba_selecionada = nomes_abas[int(escolha) - 1]
             print(f"\n{Colors.BOLD}{Colors.LIGHT_CYAN}--- STATUS DO SISTEMA ---{Colors.ENDC}")
-            print(f"  {Colors.OKCYAN}► {Colors.BOLD}{nome_aba_selecionada}{Colors.ENDC} {Colors.LIGHT_GREEN}Setor ativado. Status: {Colors.BOLD}[ONLINE]{Colors.ENDC}")
+            print(
+                f"  {Colors.OKCYAN}► {Colors.BOLD}{nome_aba_selecionada}{Colors.ENDC} {Colors.LIGHT_GREEN}Setor ativado. Status: {Colors.BOLD}[ONLINE]{Colors.ENDC}")
             print(f"  {Colors.OKCYAN}► {Colors.ENDC}{Colors.LIGHT_GREEN}Aguardando consulta...{Colors.ENDC}")
-
 
             termos_voltar = ['V', 'VOLTAR']
 
