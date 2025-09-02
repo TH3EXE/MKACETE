@@ -18,9 +18,9 @@ DADOS_RESTRICOES = {
 Prezado(a) Sr(a). [_NM_BENEFICIARIO_]
 NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
 
-NO MOMENTO SUA SOLICITAÇÃO: (procedimento) FOI INDEFERIDA POR CARÊNCIA CONTRATUAL.
+NO MOMENTO SUA SOLICITAÇÃO: {procedimento} FOI INDEFERIDA POR CARÊNCIA CONTRATUAL.
 
-EXCETO CONSULTA E EXAMES DE URGÊNCIA SOLICITAMOS UMA NOVA ABERTURA DE DEMANDA PARA ESSE PROCEDIMENTO A PARTIR DA DATA: (00/00/0000).
+EXCETO CONSULTA E EXAMES DE URGÊNCIA SOLICITAMOS UMA NOVA ABERTURA DE DEMANDA PARA ESSE PROCEDIMENTO A PARTIR DA DATA: {data_disponivel}.
 
 EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
 """
@@ -32,7 +32,7 @@ EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PE
 Prezado(a) Sr(a). [_NM_BENEFICIARIO_]
 NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
 
-A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. O contrato de plano de saúde individual ou familiar tem início de vigência a partir da data de assinatura da proposta de adesão, da assinatura do contrato ou da data de pagamento da mensalidade, o que ocorrer primeiro. No tocante aos contratos coletivos, a operadora de saúde e a pessoa jurídica contratante possuem liberdade para negociar o início da vigência, desde que até a data pactuada não haja qualquer pagamento. Verificando o contrato de Vossa Senhoria, identificou-se que o mesmo está com início de vigência programado para o dia XX/XX/XXXX. Dessa forma, apenas após tal data é que os serviços cobertos pela operadora poderão ser solicitados, observados os prazos de carências contratuais e legais.
+A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. O contrato de plano de saúde individual ou familiar tem início de vigência a partir da data de assinatura da proposta de adesão, da assinatura do contrato ou da data de pagamento da mensalidade, o que ocorrer primeiro. No tocante aos contratos coletivos, a operadora de saúde e a pessoa jurídica contratante possuem liberdade para negociar o início da vigência, desde que até a data pactuada não haja qualquer pagamento. Verificando o contrato de Vossa Senhoria, identificou-se que o mesmo está com início de vigência programado para o dia {data_vigencia}. Dessa forma, apenas após tal data é que os serviços cobertos pela operadora poderão ser solicitados, observados os prazos de carências contratuais e legais.
 
 EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
 """
@@ -44,7 +44,7 @@ EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PE
 Prezado(a) Sr(a). [_NM_BENEFICIARIO_]
 NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
 
-A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. Após análise da solicitação de (colocar o nome do procedimento), esta restou indeferida, pois verificou-se que o(a) beneficiário(a) é contratante de plano com segmentação exclusivamente AMBULATORIAL, registrado na Agência Nacional de Saúde Suplementar - ANS sob o nº XXX, sem direito à internação e/ou cirurgias. É válido salientar, que o plano de cobertura ambulatorial não abrange quaisquer atendimentos que necessitem de suporte em internação hospitalar, uma vez que a referida cobertura compreende, tão somente, consultas médicas em clínicas ou consultórios, exames, tratamento e demais procedimentos ambulatoriais, nos termos inciso I, do art. 12 da Lei Federal n° 9.656/1998 e do art. 18 da Resolução Normativa n°. 465/2021 da Agência Nacional de Saúde Suplementar. Dessa forma, o pedido para autorização do procedimento de (colocar o nome do procedimento), não foi aprovado, por não se enquadrar em condições de cobertura contratualmente pactuadas. EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
+A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. Após análise da solicitação de {procedimento01}, esta restou indeferida, pois verificou-se que o(a) beneficiário(a) é contratante de plano com segmentação exclusivamente AMBULATORIAL, registrado na Agência Nacional de Saúde Suplementar - ANS sob o nº XXX, sem direito à internação e/ou cirurgias. É válido salientar, que o plano de cobertura ambulatorial não abrange quaisquer atendimentos que necessitem de suporte em internação hospitalar, uma vez que a referida cobertura compreende, tão somente, consultas médicas em clínicas ou consultórios, exames, tratamento e demais procedimentos ambulatoriais, nos termos inciso I, do art. 12 da Lei Federal n° 9.656/1998 e do art. 18 da Resolução Normativa n°. 465/2021 da Agência Nacional de Saúde Suplementar. Dessa forma, o pedido para autorização do procedimento de {procedimento02}, não foi aprovado, por não se enquadrar em condições de cobertura contratualmente pactuadas. EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
 """
     },
     '08': {
@@ -54,7 +54,7 @@ A atuação da Operadora Hapvida está vinculada à regulação do Governo Feder
 Prezado(a) Sr(a). [_NM_BENEFICIARIO_]
 NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
 
-A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. O contrato de V.S.ª. trata-se de plano antigo, ou seja, foi comercializado antes da vigência da Lei 9.656/98. Tais planos possuem como característica a auto aplicabilidade de suas cláusulas, principalmente quanto aos eventos cobertos e excluídos. Sendo assim, a relação contratual estabelecida entre as partes é regida pelos termos exatos do contrato firmado. Em análise, pudemos verificar que o limite contratual foi excedido. Diante do exposto, a solicitação para autorização do procedimento acima mencionado não foi aprovada, por se tratar de pedido não coberto em contrato de plano de saúde não regulamentado, isto é, anterior à vigência da Lei nº 9.656/98.
+A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. O contrato de V.S.ª. trata-se de plano antigo, ou seja, foi comercializado antes da vigência da Lei 9.656/98. Tais planos possuem como característica a auto aplicabilidade de suas cláusulas, principalmente quanto aos eventos cobertos e excluídos. Sendo assim, a relação contratual estabelecida entre as partes é regida pelos termos exatos do contrato firmado. Em análise, pudemos verificar que o limite contratual foi excedido. Diante do exposto, a solicitação para autorização do procedimento {procedimento} acima mencionado não foi aprovada, por se tratar de pedido não coberto em contrato de plano de saúde não regulamentado, isto é, anterior à vigência da Lei nº 9.656/98.
 
 EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
 """
@@ -78,7 +78,7 @@ EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PE
 PREZADO(A) SR(A). [_NM_BENEFICIARIO_]
 NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
 
-A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde determinado pela Resolução Normativa n°. 465/2021, bem como, os critérios estabelecidos pela Lei Federal n°. 9.656/1998. Vossa Senhoria possui plano vinculado a esta operadora registrado na ANS sob o número XXX, com área de abrangência geográfica Grupo de XXX. Cumpre esclarecer que as operadoras de planos de assistência à saúde podem ofertar planos com área de abrangência Nacional, Estadual, de Grupo de Estados, Municipal ou de Grupo de Municípios, conforme esclarece item 4, do Anexo, da Resolução Normativa N° 543/2022, da Agência Nacional de Saúde Suplementar. Assim, vale enfatizar que o plano de saúde tem como área de atuação, tão somente, nos municípios ou estados albergados no referido tipo de plano contratado, com atendimento através dos médicos e prestadores indicados no Manual de Orientação do Beneficiário e Portal da Operadora, dentre os quais, não inclui a cidade de XXX. Dessa forma, o pedido para autorização de PROCEDIMENTO acima mencionado, em atenção ao contrato celebrado, não foi aprovado, por não se enquadrar em condições de cobertura estabelecidas no instrumento contratual, haja vista estar fora da área de abrangência.
+A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde determinado pela Resolução Normativa n°. 465/2021, bem como, os critérios estabelecidos pela Lei Federal n°. 9.656/1998. Vossa Senhoria possui plano vinculado a esta operadora registrado na ANS sob o número XXX, com área de abrangência geográfica Grupo de XXX. Cumpre esclarecer que as operadoras de planos de assistência à saúde podem ofertar planos com área de abrangência Nacional, Estadual, de Grupo de Estados, Municipal ou de Grupo de Municípios, conforme esclarece item 4, do Anexo, da Resolução Normativa N° 543/2022, da Agência Nacional de Saúde Suplementar. Assim, vale enfatizar que o plano de saúde tem como área de atuação, tão somente, nos municípios ou estados albergados no referido tipo de plano contratado, com atendimento através dos médicos e prestadores indicados no Manual de Orientação do Beneficiário e Portal da Operadora, dentre os quais, não inclui a cidade de {cidade_estado}. Dessa forma, o pedido para autorização de {procedimento} acima mencionado, em atenção ao contrato celebrado, não foi aprovado, por não se enquadrar em condições de cobertura estabelecidas no instrumento contratual, haja vista estar fora da área de abrangência.
 
 EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
 """
@@ -90,9 +90,9 @@ EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PE
 PREZADO(A) SR(A). [_NM_BENEFICIARIO_]
 NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
 
-A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. Após análise da solicitação de (colocar o nome do procedimento), esta restou indeferida, pois em conformidade com o Contrato, os serviços médicos prestados por esta operadora foram rescindidos, visto que vossa senhoria perdeu a qualidade de beneficiário.
+A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. Após análise da solicitação de {procedimento}, esta restou indeferida, pois em conformidade com o Contrato, os serviços médicos prestados por esta operadora foram rescindidos, visto que vossa senhoria perdeu a qualidade de beneficiário.
 
-SOLICITAMOS UMA NOVA ABERTURA COM CARTEIRINHA ATIVA.
+SOLICITAMOS UMA NOVA ABERTURA COM CARTEIRINHA ATIVA. 
 
 EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
 """
@@ -106,7 +106,9 @@ NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
 
 NO MOMENTO SUA SOLICITAÇÃO FOI INDEFERIDA POR USUÁRIO É ATENDIDO POR OUTRA ASSISTÊNCIA.
 
-A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. A Operadora deve garantir o acesso do beneficiário aos serviços e procedimentos definidos no Rol de Procedimentos e Eventos em Saúde da ANS, conforme os prazos da Resolução Normativa nº. 566/2022. A Resolução Normativa nº. 465/2021, que estabelece o Rol de Procedimentos e Eventos em Saúde, referência básica para cobertura assistencial mínima, em seu artigo 1º, §2º, assim dispõe: “A cobertura assistencial estabelecida por esta Resolução Normativa e seus anexos será obrigatória independente da circunstância e do local de ocorrência do evento que ensejar o atendimento, respeitadas as segmentações, a área de atuação e de abrangência, a rede de prestadores de serviços contratada, credenciada ou referenciada da operadora, [...]”
+A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. A Operadora deve garantir o acesso do beneficiário aos serviços e procedimentos definidos no Rol de Procedimentos e Eventos em Saúde da ANS, conforme os prazos da Resolução Normativa nº. 566/2022. A Resolução Normativa nº. 465/2021, que estabelece o Rol de Procedimentos e Eventos em Saúde, referência básica para cobertura assistencial mínima, em seu artigo 1º, §2º, assim dispõe: “A cobertura assistencial estabelecida por esta Resolução Normativa e seus anexos será obrigatória independente da circunstância e do local de ocorrência do evento que ensejar o atendimento, respeitadas as segmentações, a área de atuação e de abrangência, a rede de prestadores de serviços contratada, credenciada ou referenciada da operadora, os prazos de carência e a cobertura parcial temporária – CPT. Em relação à solicitação do procedimento de {procedimento}, verificamos que V.S.ª. está vinculado ao plano {nome_plano}, com prestação de serviço por outra Operadora de Saúde. Sendo assim, por não possuir previsão para prestadores dessa Operadora, referido procedimento fora indeferido.
+
+EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
 """
     },
     '48': {
@@ -116,7 +118,7 @@ A atuação da Operadora Hapvida está vinculada à regulação do Governo Feder
 PREZADO(A) SR(A). [_NM_BENEFICIARIO_]
 NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
 
-A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. Após análise da solicitação de (colocar o nome do procedimento), esta restou indeferida, pois verificou-se que o(a) beneficiário(a) é contratante de plano com segmentação exclusivamente AMBULATORIAL, registrado na Agência Nacional de Saúde Suplementar - ANS sob o nº XXX, sem direito à internação e/ou cirurgias. É válido salientar, que o plano de cobertura ambulatorial não abrange quaisquer atendimentos que necessitem de suporte em internação hospitalar, uma vez que a referida cobertura compreende, tão somente, consultas médicas em clínicas ou consultórios, exames, tratamento e demais procedimentos ambulatoriais, nos termos inciso I, do art. 12 da Lei Federal n° 9.656/1998 e do art. 18 da Resolução Normativa n°. 465/2021 da Agência Nacional de Saúde Suplementar. Dessa forma, o pedido para autorização do procedimento de (colocar o nome do procedimento), não foi aprovado, por não se enquadrar em condições de cobertura contratualmente pactuadas.
+A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98.Após análise da solicitação de {procedimento01}, esta restou indeferida, pois verificou-se que o(a) beneficiário(a) é contratante de plano com segmentação exclusivamente AMBULATORIAL, registrado na Agência Nacional de Saúde Suplementar - ANS sob o nº XXX, sem direito à internação e/ou cirurgias. É válido salientar, que o plano de cobertura ambulatorial não abrange quaisquer atendimentos que necessitem de suporte em internação hospitalar, uma vez que a referida cobertura compreende, tão somente, consultas médicas em clínicas ou consultórios, exames, tratamento e demais procedimentos ambulatoriais, nos termos inciso I, do art. 12 da Lei Federal n° 9.656/1998 e do art. 18 da Resolução Normativa n°. 465/2021 da Agência Nacional de Saúde Suplementar. Dessa forma, o pedido para autorização do procedimento de {procedimento02}, não foi aprovado, por não se enquadrar em condições de cobertura contratualmente pactuadas.
 
 EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
 """
@@ -128,7 +130,7 @@ EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PE
 PREZADO(A) SR(A). [_NM_BENEFICIARIO_]
 NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
 
-A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. Após análise da solicitação de (colocar o nome do procedimento), esta restou indeferida, pois verificou-se que o beneficiário(a) é contratante de plano com segmentação exclusivamente HOSPITALAR, registrado na Agência Nacional de Saúde Suplementar - ANS sob o nº XXX, não incluindo atendimentos ambulatoriais para fins de diagnóstico, terapia ou recuperação. É válido salientar que, o plano de cobertura hospitalar compreende os atendimentos realizados em todas as modalidades de internação hospitalar e os atendimentos caracterizados como de urgência e emergência, nos termos inciso II, do art. 12 da Lei Federal n° 9.656/1998 e do art. 19 da Resolução Normativa n°. 465/2021 da Agência Nacional de Saúde Suplementar. Dessa forma, o pedido para autorização do procedimento de (colocar o nome do procedimento), não foi aprovado, por não se enquadrar em condições de cobertura contratualmente pactuadas.
+A atuação da Operadora Hapvida está vinculada à regulação do Governo Federal, através da Agência Nacional de Saúde Suplementar - ANS, Autarquia Federal reguladora do referido setor de saúde. As coberturas são estabelecidas pela ANS, conforme previsto no Rol de Procedimentos e Eventos em Saúde, e determinadas pela Resolução Normativa n°. 465/2021, sob o amparo da Lei Federal n°. 9656/98. Após análise da solicitação de {procedimento01}, esta restou indeferida, pois verificou-se que o beneficiário(a) é contratante de plano com segmentação exclusivamente HOSPITALAR, registrado na Agência Nacional de Saúde Suplementar - ANS sob o nº XXX, não incluindo atendimentos ambulatoriais para fins de diagnóstico, terapia ou recuperação. É válido salientar que, o plano de cobertura hospitalar compreende os atendimentos realizados em todas as modalidades de internação hospitalar e os atendimentos caracterizados como de urgência e emergência, nos termos inciso II, do art. 12 da Lei Federal n° 9.656/1998 e do art. 19 da Resolução Normativa n°. 465/2021 da Agência Nacional de Saúde Suplementar. Dessa forma, o pedido para autorização do procedimento de {procedimento02}, não foi aprovado, por não se enquadrar em condições de cobertura contratualmente pactuadas.
 
 EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
 """
@@ -550,9 +552,38 @@ def gerar_fraseologia_negativa():
 
         if escolha in DADOS_RESTRICOES:
             dados = DADOS_RESTRICOES[escolha]
+            frase_final = dados['fraseologia']
+            campos_necessarios = {}
+
+            # Identifica os campos a serem preenchidos na fraseologia selecionada
+            if '{procedimento}' in frase_final:
+                campos_necessarios['procedimento'] = 'Nome do procedimento'
+            if '{procedimento01}' in frase_final:
+                campos_necessarios['procedimento01'] = 'Nome do 1º procedimento'
+            if '{procedimento02}' in frase_final:
+                campos_necessarios['procedimento02'] = 'Nome do 2º procedimento'
+            if '{data_disponivel}' in frase_final:
+                campos_necessarios['data_disponivel'] = 'Data de liberação (DD/MM/AAAA)'
+            if '{data_vigencia}' in frase_final:
+                campos_necessarios['data_vigencia'] = 'Data de início de vigência (DD/MM/AAAA)'
+            if '{cidade_estado}' in frase_final:
+                campos_necessarios['cidade_estado'] = 'Nome da cidade ou estado'
+            if '{nome_plano}' in frase_final:
+                campos_necessarios['nome_plano'] = 'Nome do plano'
+
+            # Solicita a entrada para cada campo necessário
+            if campos_necessarios:
+                print(f"\n{Colors.LIGHT_BLUE}--- Preencha os campos para a restrição {escolha} ---{Colors.ENDC}")
+                valores = {}
+                for chave, prompt in campos_necessarios.items():
+                    valores[chave] = input(f"{Colors.OKCYAN}{prompt}: {Colors.ENDC}").strip()
+
+                # Formata a fraseologia com os valores fornecidos
+                frase_final = frase_final.format(**valores)
+
             print(f"\n{Colors.LIGHT_GREEN}✓ Fraseologia de negativa gerada para: {dados['nome']}!{Colors.ENDC}")
             print(f"{Colors.LIGHT_CYAN}--- COPIE E COLE ---{Colors.ENDC}")
-            print(dados['fraseologia'])
+            print(frase_final)
             print(f"{Colors.LIGHT_CYAN}--------------------{Colors.ENDC}")
             input(f"\n{Colors.OKBLUE}Pressione ENTER para voltar ao menu de negativas...{Colors.ENDC}")
             return gerar_fraseologia_negativa()
