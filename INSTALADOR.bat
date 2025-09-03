@@ -60,6 +60,7 @@ pip install pandas
 pip install openpyxl
 pip install unidecode
 pip install colorama
+pip install pyperclip
 
 echo.
 echo [3/3] Verificando a instalacao das dependencias...
@@ -69,6 +70,7 @@ pip show pandas >nul 2>&1 || (echo ERRO: Falha ao instalar pandas. & goto end)
 pip show openpyxl >nul 2>&1 || (echo ERRO: Falha ao instalar openpyxl. & goto end)
 pip show unidecode >nul 2>&1 || (echo ERRO: Falha ao instalar unidecode. & goto end)
 pip show colorama >nul 2>&1 || (echo ERRO: Falha ao instalar colorama. & goto end)
+pip show pyperclip >nul 2>&1 || (echo ERRO: Falha ao instalar pyperclip. & goto end)
 
 echo.
 echo ======================================================
