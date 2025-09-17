@@ -173,6 +173,86 @@ EM CASO DE DÚVIDAS, ENTRE EM CONTATO COM A NOSSA CENTRAL DE ATENDIMENTO PELOS N
     }
 }
 
+# NOVAS FERRAMENTAS DE FINALIZAÇÃO E CANCELAMENTO
+FERRAMENTAS_FINALIZACAO = {
+    'ANALISE': {
+        'nome': 'AUDITORIA E CREDENCIAMENTO',
+        'fraseologia': """
+PREZADO(A) [_NM_BENEFICIARIO_],
+SUA SOLICITAÇÃO DE AUTORIZAÇÃO, PROTOCOLADA SOB [_NU_PROTOCOLO_], ESTÁ EM ANÁLISE.
+
+ACOMPANHE O STATUS PELO SEU E-MAIL, SITE OU APLICATIVO.
+
+EM CASO DE DÚVIDAS, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELO TELEFONE 4090-1740 OU 0800 409 1740.
+"""
+    },
+    'CARTEIRINHA_INCORRETA': {
+        'nome': 'CARTEIRINHA INCORRETA',
+        'fraseologia': """
+PREZADO(A) SR(A). [_NM_BENEFICIARIO_],
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+VERIFICAMOS QUE A GUIA ENCAMINHADA CONSTA EM NOME DE OUTRO BENEFICIÁRIO.
+POR GENTILEZA, SOLICITAMOS QUE ABRA A DEMANDA UTILIZANDO A CARTEIRINHA CORRETA, CORRESPONDENTE AO NOME QUE CONSTA NA GUIA, PARA QUE POSSAMOS DAR CONTINUIDADE AO ATENDIMENTO.
+
+EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
+"""
+    },
+    'FALTA_DOCUMENTACAO_48H': {
+        'nome': 'ORIENTAÇÃO SOBRE PRAZO DE 48 HORAS',
+        'fraseologia': """
+PREZADO(A) SR(A). [_NM_BENEFICIARIO_],
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+INFORMAMOS QUE O PROCEDIMENTO SOLICITADO FOI CANCELADO DEVIDO À NÃO APRESENTAÇÃO {documentacao}, DENTRO DO PRAZO DE 48 HORAS, CONFORME ESTABELECIDO NAS DIRETRIZES OPERACIONAIS DA OPERADORA.
+
+PARA DAR CONTINUIDADE AO PROCESSO, SERÁ NECESSÁRIO ABRIR UMA NOVA SOLICITAÇÃO, JÁ COM A PRESCRIÇÃO MÉDICA ATUALIZADA ANEXADA NO MOMENTO DO PEDIDO.
+
+EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
+"""
+    },
+    'PROCEDIMENTO_REALIZADO': {
+        'nome': 'PROCEDIMENTO JÁ REALIZADO',
+        'fraseologia': """
+PREZADO(A) SR(A). [_NM_BENEFICIARIO_],
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+PROCEDIMENTO JÁ CONSTA REALIZADO EM SISTEMA.
+
+PROCEDIMENTO: {procedimento}
+SENHA: {senha}
+PRESTADOR: {prestador}
+
+EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
+"""
+    },
+    'FALTA_DOCUMENTACAO': {
+        'nome': 'FALTA DE DOCUMENTAÇÃO',
+        'fraseologia': """
+PREZADO(A) SR(A). [_NM_BENEFICIARIO_],
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+SOLICITAMOS O ANEXO DAS IMAGENS LEGÍVEIS DAS SOLICITAÇÕES MÉDICAS, PARA AS QUAIS DESEJA SOLICITAR AUTORIZAÇÃO. 
+
+ANEXAR DOCUMENTAÇÃO EM FORMATO PDF OU JPEG.
+
+EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
+"""
+    },
+    'ORIENTACAO_ODONTO': {
+        'nome': 'ORIENTAÇÃO ODONTOLÓGICA',
+        'fraseologia': """
+PREZADO(A) SR(A). [_NM_BENEFICIARIO_],
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+VERIFICAMOS QUE O PROCEDIMENTO SOLICITADO DEVE SER REQUERIDO POR MEIO DO SEU PLANO ODONTOLÓGICO.
+ORIENTAMOS QUE ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO OU ACESSE OS CANAIS DIGITAIS PARA REALIZAR A SOLICITAÇÃO CONFORME AS COBERTURAS E REGRAS DO PLANO.
+
+EM CASO DE DÚVIDAS, ENTRE EM CONTATO COM A NOSSA CENTRAL DE ATENDIMENTO PELOS NÚMEROS: 0800 463 4648, 4090 1740 OU 0800 409 1740.
+"""
+    }
+}
+
 
 # =================================================================================
 # BLOCO 3: CLASSES PRINCIPAIS
@@ -364,7 +444,7 @@ class MecanismoBuscaAvancado:
             print(
                 f"\n{Colors.BATMAN_YELLOW}Nenhum resultado encontrado para '{termo}' no setor '{nome_aba}'.{Colors.ENDC}")
             return
-        print(f"\n{Colors.BATMAN_YELLOW}>>> Resultado da Busca Terminal <<<{Colors.ENDC}")
+        print(f"\n{Colors.BATMAN_YELLOW}>>> Resultado da Busca Subterrânea <<<{Colors.ENDC}")
         print(f"{Colors.GOTHAM_TEXT}┌─ Termo de busca: {Colors.BOLD}{Colors.BATMAN_YELLOW}{termo}{Colors.ENDC}")
         print(f"{Colors.GOTHAM_TEXT}├─ Setor de dados: {Colors.BOLD}{Colors.BATMAN_YELLOW}{nome_aba}{Colors.ENDC}")
         print(
@@ -426,7 +506,7 @@ class MecanismoBuscaAvancado:
 
     def mostrar_estatisticas(self):
         """Exibe as estatísticas de uso e performance do sistema."""
-        print(f"\n{Colors.BATMAN_YELLOW}>>> Relatório de Status do Sistema <<<{Colors.ENDC}")
+        print(f"\n{Colors.BATMAN_YELLOW}>>> Relatório de Status do Submundo <<<{Colors.ENDC}")
         print(
             f"{Colors.GOTHAM_TEXT}Total de consultas: {Colors.BOLD}{self.estatisticas['total_buscas']}{Colors.ENDC}")
         print(
@@ -461,6 +541,19 @@ class MecanismoBuscaAvancado:
 def center_text(text, width):
     """Função utilitária para centralizar texto no terminal."""
     return text.center(width)
+
+
+def get_user_confirmation():
+    """Pede confirmação do usuário para gerar a fraseologia."""
+    while True:
+        confirm = input(
+            f"{Colors.GOTHAM_TEXT}Deseja realmente gerar essa fraseologia? (S/N): {Colors.BATMAN_YELLOW}").strip().upper()
+        if confirm == 'S':
+            return True
+        elif confirm == 'N':
+            return False
+        else:
+            print(f"{Colors.BATMAN_YELLOW}Opção inválida. Digite 'S' para Sim ou 'N' para Não.{Colors.ENDC}")
 
 
 # =================================================================================
@@ -522,6 +615,10 @@ SUA SOLICITAÇÃO DE AUTORIZAÇÃO PARA EXAME FOI RECEBIDA COM OS SEGUINTES DADO
 EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
 """
         frase_final = fraseologia_base + corpo_fraseologia + mensagem_contato
+        if not get_user_confirmation():
+            print(f"{Colors.BATMAN_YELLOW}Geração cancelada.{Colors.ENDC}")
+            return
+
         frase_limpa = os.linesep.join([s.strip() for s in frase_final.splitlines() if s.strip()])
         pyperclip.copy(frase_limpa)
         print(
@@ -570,6 +667,11 @@ def gerar_fraseologia_negativa():
                     f"{Colors.BATMAN_YELLOW}O campo '{nome_campo.replace('_', ' ')}' é obrigatório. Saindo.{Colors.ENDC}")
                 return
             campos_a_preencher[placeholder] = valor_campo
+
+    if not get_user_confirmation():
+        print(f"{Colors.BATMAN_YELLOW}Geração cancelada.{Colors.ENDC}")
+        return
+
     try:
         frase_gerada = frase_modelo
         for placeholder, valor in campos_a_preencher.items():
@@ -583,6 +685,58 @@ def gerar_fraseologia_negativa():
         print(f"{Colors.BOLD}{Colors.BATMAN_YELLOW}----------------------------------------{Colors.ENDC}")
     except Exception as e:
         print(f"{Colors.BATMAN_YELLOW}Erro ao gerar fraseologia negativa: {e}{Colors.ENDC}")
+
+
+def gerar_fraseologia_finalizacao():
+    """Gera e copia uma fraseologia de finalização com base em um código."""
+    print(f"\n{Colors.BOLD}{Colors.BATMAN_YELLOW}--- Ferramentas de Finalização ---{Colors.ENDC}")
+    print(f"{Colors.GOTHAM_TEXT}Códigos de finalização disponíveis:{Colors.ENDC}")
+    opcoes = list(FERRAMENTAS_FINALIZACAO.keys())
+    for i, codigo in enumerate(opcoes):
+        print(f"{Colors.BATMAN_YELLOW}[{i + 1}]{Colors.ENDC} - {FERRAMENTAS_FINALIZACAO[codigo]['nome']}")
+    escolha_finalizacao = input(f"{Colors.GOTHAM_TEXT}Escolha o código de finalização: {Colors.BATMAN_YELLOW}").strip()
+
+    try:
+        escolha_finalizacao = opcoes[int(escolha_finalizacao) - 1]
+    except (ValueError, IndexError):
+        print(f"{Colors.BATMAN_YELLOW}Código de finalização inválido.{Colors.ENDC}")
+        return
+
+    info_finalizacao = FERRAMENTAS_FINALIZACAO[escolha_finalizacao]
+    frase_modelo = info_finalizacao['fraseologia']
+    campos_a_preencher = {}
+
+    # Check for specific placeholders and prompt for them
+    placeholders = ['{documentacao}', '{procedimento}', '{senha}', '{prestador}']
+    for placeholder in placeholders:
+        if placeholder in frase_modelo:
+            campo_nome = placeholder.strip('{}')
+            valor_campo = input(
+                f"{Colors.GOTHAM_TEXT}{campo_nome.replace('_', ' ').capitalize()}: {Colors.BATMAN_YELLOW}").strip()
+            if not valor_campo and campo_nome in ['procedimento', 'senha', 'prestador', 'documentacao']:
+                print(
+                    f"{Colors.BATMAN_YELLOW}O campo '{campo_nome.replace('_', ' ')}' é obrigatório. Saindo.{Colors.ENDC}")
+                return
+            campos_a_preencher[placeholder] = valor_campo
+
+    if not get_user_confirmation():
+        print(f"{Colors.BATMAN_YELLOW}Geração cancelada.{Colors.ENDC}")
+        return
+
+    try:
+        frase_gerada = frase_modelo
+        for placeholder, valor in campos_a_preencher.items():
+            frase_gerada = frase_gerada.replace(placeholder, valor)
+
+        frase_limpa = os.linesep.join([s.strip() for s in frase_gerada.splitlines() if s.strip()])
+        pyperclip.copy(frase_limpa)
+        print(
+            f"\n{Colors.BATMAN_YELLOW}✓ Fraseologia de Finalização copiada para a área de transferência!{Colors.ENDC}")
+        print(f"\n{Colors.BOLD}{Colors.BATMAN_YELLOW}----------------------------------------{Colors.ENDC}")
+        print(f"{Colors.GOTHAM_TEXT}{frase_limpa}{Colors.ENDC}")
+        print(f"{Colors.BOLD}{Colors.BATMAN_YELLOW}----------------------------------------{Colors.ENDC}")
+    except Exception as e:
+        print(f"{Colors.BATMAN_YELLOW}Erro ao gerar fraseologia de finalização: {e}{Colors.ENDC}")
 
 
 # =================================================================================
@@ -600,6 +754,8 @@ def manter_sessao_fraseologia(initial_choice):
             gerar_fraseologia_negativa()
         elif initial_choice == 'R':
             gerar_texto_reembolso()
+        elif initial_choice == 'T':
+            gerar_fraseologia_finalizacao()
         elif initial_choice.upper() in ['V', 'VOLTAR']:
             break
         else:
@@ -612,6 +768,8 @@ def manter_sessao_fraseologia(initial_choice):
             f"{Colors.BOLD}{Colors.BATMAN_YELLOW}► [N]{Colors.ENDC} {Colors.GOTHAM_TEXT}Gerar outra Negativa{Colors.ENDC}")
         print(
             f"{Colors.BOLD}{Colors.BATMAN_YELLOW}► [R]{Colors.ENDC} {Colors.GOTHAM_TEXT}Gerar outro Reembolso{Colors.ENDC}")
+        print(
+            f"{Colors.BOLD}{Colors.BATMAN_YELLOW}► [T]{Colors.ENDC} {Colors.GOTHAM_TEXT}Gerar outra Finalização{Colors.ENDC}")
         print(
             f"{Colors.BOLD}{Colors.BATMAN_YELLOW}► [V]{Colors.ENDC} {Colors.GOTHAM_TEXT}Voltar ao menu principal{Colors.ENDC}")
         print(f"{Colors.GOTHAM_TEXT}════════════════════════════════════════{Colors.ENDC}")
@@ -638,6 +796,8 @@ def exibir_menu_ferramentas_texto(terminal_width):
         print(
             f"  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [R]{Colors.ENDC} {Colors.GOTHAM_TEXT}Orientação para Reembolso{Colors.ENDC}")
         print(
+            f"  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [T]{Colors.ENDC} {Colors.GOTHAM_TEXT}Ferramentas de Finalização{Colors.ENDC}")
+        print(
             f"\n  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [V]{Colors.ENDC} {Colors.GOTHAM_TEXT}Voltar ao menu principal{Colors.ENDC}")
         print(f"{Colors.GOTHAM_TEXT}{center_text('═' * 60, terminal_width)}{Colors.ENDC}")
 
@@ -648,6 +808,8 @@ def exibir_menu_ferramentas_texto(terminal_width):
             gerar_fraseologia_negativa()
         elif escolha == 'R':
             gerar_texto_reembolso()
+        elif escolha == 'T':
+            gerar_fraseologia_finalizacao()
         elif escolha in ['V', 'VOLTAR']:
             break
         else:
@@ -773,9 +935,9 @@ def main():
         terminal_width = 80
 
     print(f"\n{Colors.BOLD}{Colors.GOTHAM_TEXT}")
-    print(center_text("INICIANDO MUNDO SOMBRIO - MKACETE", terminal_width))
+    print(center_text("INICIANDO SUBMUNDO DAS TREVAS", terminal_width))
     print(center_text("═" * terminal_width, terminal_width))
-    print(center_text("SISTEMA SOMBRIO", terminal_width))
+    print(center_text("SISTEMA SUBTERRÂNEO", terminal_width))
     print(f"{Colors.ENDC}")
     print(f"{Colors.GOTHAM_TEXT}Calibrando matriz de dados...{Colors.ENDC}")
     bar_length = terminal_width - 20
@@ -790,7 +952,7 @@ def main():
     sys.stdout.flush()
 
     caminho_local = 'BATMAN.xlsx'
-    caminho_completo = r'C:\Users\marcos.oliveira7\Documents\TREVAS\MKACETE-main\BATMAN.xlsx'
+    caminho_completo = r'C:\Users\marcos.oliveira7\Documents\TREVAS\SUBMUNDO DAS TREVAS-main\BATMAN.xlsx'
 
     if os.path.exists(caminho_local):
         nome_arquivo = caminho_local
@@ -814,7 +976,7 @@ def main():
         os.system('cls' if os.name == 'nt' else 'clear')
         print(f"\n{Colors.GOTHAM_TEXT}{center_text('═' * 60, terminal_width)}{Colors.ENDC}")
         print(
-            center_text(f"{Colors.BOLD}{Colors.BATMAN_YELLOW}--- TERMINAL SOMBRIO ---{Colors.ENDC}",
+            center_text(f"{Colors.BOLD}{Colors.BATMAN_YELLOW}--- SUBMUNDO DAS TREVAS ---{Colors.ENDC}",
                         terminal_width + 12))
         print(center_text(f"{Colors.BATMAN_YELLOW}Selecione uma página para continuar:{Colors.ENDC}",
                           terminal_width + 12))
@@ -834,7 +996,7 @@ def main():
 
         if escolha == '0':
             print(
-                f"\n{Colors.BATMAN_YELLOW}Sistema MKACETE encerrado. Volte sempre para mais alegria nos dados!{Colors.ENDC}")
+                f"\n{Colors.BATMAN_YELLOW}Sistema SUBMUNDO DAS TREVAS encerrado. Volte sempre para mais alegria nos dados!{Colors.ENDC}")
             break
         elif escolha == '1':
             exibir_menu_ferramentas_texto(terminal_width)
