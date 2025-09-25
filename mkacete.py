@@ -2,35 +2,26 @@
 # BLOCO 1: MÓDULOS E BIBLIOTECAS
 # =================================================================================
 # Este bloco importa todas as bibliotecas necessárias para o funcionamento do script.
-# - pandas: Manipulação e análise de dados, especialmente para o arquivo Excel.
-# - os: Interação com o sistema operacional (limpar tela, verificar arquivos).
-# - time: Funções relacionadas a tempo (pausas e medição de performance).
-# - sys: Acesso a parâmetros e funções do sistema (saída para o terminal).
-# - unidecode: Normalização de texto, removendo acentuações e caracteres especiais.
-# - difflib: Biblioteca para comparar sequências e fazer buscas 'fuzzy' (por similaridade).
-# - json: Manipulação de dados no formato JSON, usado para o arquivo de configuração.
-# - warnings: Para ignorar avisos de bibliotecas que não afetam o funcionamento.
-# - colorama: Permite estilizar a saída do terminal com cores em diferentes sistemas operacionais.
-# - pyperclip: Ferramenta para copiar texto para a área de transferência do sistema.
 
-import pandas as pd
-import os
-import time
-import sys
-from unidecode import unidecode
-from difflib import SequenceMatcher
-import json
-import warnings
-import colorama
-import pyperclip
+import pandas as pd  # Manipulação e análise de dados, essencial para ler o arquivo Excel (BATMAN.xlsx).
+import os  # Funções de interação com o sistema operacional (e.g., limpar tela, verificar arquivos, definir caminhos).
+import time  # Funções relacionadas a tempo (pausas e medição de performance de carregamento e busca).
+import sys  # Acesso a parâmetros e funções do sistema (e.g., manipulação de saída do terminal).
+from unidecode import unidecode  # Normalização de texto, removendo acentuações e caracteres especiais para busca.
+from difflib import SequenceMatcher  # Biblioteca para calcular a similaridade entre duas sequências (busca fuzzy).
+import json  # Manipulação de dados no formato JSON, usado para o arquivo de configuração (config.json).
+import warnings  # Para ignorar avisos de bibliotecas que não afetam o funcionamento do script.
+import colorama  # Permite estilizar a saída do terminal com cores em diferentes sistemas operacionais.
+import pyperclip  # Ferramenta para copiar texto para a área de transferência do sistema.
 
 # =================================================================================
 # BLOCO 2: DADOS E CONSTANTES
 # =================================================================================
-# Este bloco contém os dicionários de dados que definem as frases de negativa
-# e outras ferramentas de texto. Isso centraliza as frases em um único local,
-# tornando a edição e a adição de novas opções mais fácil.
+# Este bloco contém os dicionários de dados que definem as frases prontas (fraseologias)
+# para negativas, autorizações e outras ferramentas de texto. Isso centraliza as frases
+# em um único local, facilitando a edição e a adição de novas opções.
 
+# Dicionário de frases para negativas de autorização (restrições contratuais ou regulatórias).
 DADOS_RESTRICOES = {
     '01': {
         'nome': 'CARÊNCIA CONTRATUAL',
@@ -158,6 +149,7 @@ EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PE
     }
 }
 
+# Dicionário para frases utilitárias que não são negativas nem autorizações.
 FERRAMENTAS_TEXTO = {
     'REEMBOLSO': {
         'nome': 'ORIENTAÇÃO PARA REEMBOLSO',
@@ -173,7 +165,7 @@ EM CASO DE DÚVIDAS, ENTRE EM CONTATO COM A NOSSA CENTRAL DE ATENDIMENTO PELOS N
     }
 }
 
-# NOVAS FERRAMENTAS DE FINALIZAÇÃO E CANCELAMENTO
+# Dicionário para frases usadas no encerramento ou finalização de demandas (positivas ou negativas).
 FERRAMENTAS_FINALIZACAO = {
     'ANALISE': {
         'nome': 'AUDITORIA E CREDENCIAMENTO',
@@ -207,6 +199,17 @@ NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
 INFORMAMOS QUE O PROCEDIMENTO SOLICITADO FOI CANCELADO DEVIDO À NÃO APRESENTAÇÃO {documentacao}, DENTRO DO PRAZO DE 48 HORAS, CONFORME ESTABELECIDO NAS DIRETRIZES OPERACIONAIS DA OPERADORA.
 
 PARA DAR CONTINUIDADE AO PROCESSO, SERÁ NECESSÁRIO ABRIR UMA NOVA SOLICITAÇÃO, JÁ COM A PRESCRIÇÃO MÉDICA ATUALIZADA ANEXADA NO MOMENTO DO PEDIDO.
+
+EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
+"""
+    },
+    'DOCUMENTACAO_RECEBIDA_48H': {
+        'nome': 'RETORNO DE AGRADECIMENTO AO RECEBER DOCUMENTAÇÃO',
+        'fraseologia': """
+PREZADO(A) SR(A). [_NM_BENEFICIARIO_],
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
+
+AGRADECEMOS O ENVIO DO(S) DOCUMENTO(S)/EXAME(S) SOLICITADO(S). GENTILEZA PERMANECER ACOMPANHANDO SUA SOLICITAÇÃO ATRAVÉS DO SITE/APP.
 
 EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
 """
@@ -258,18 +261,16 @@ EM CASO DE DÚVIDAS, ENTRE EM CONTATO COM A NOSSA CENTRAL DE ATENDIMENTO PELOS N
 # BLOCO 3: CLASSES PRINCIPAIS
 # =================================================================================
 # Este bloco define as classes que contêm a lógica central do sistema.
-# - A classe 'Colors' gerencia o esquema de cores para o terminal.
-# - A classe 'MecanismoBuscaAvancado' lida com o carregamento e a busca nos dados.
 
 class Colors:
     """Define cores e estilos para estilizar o texto no terminal com o tema 'Batman'."""
     # Cores primárias do tema
-    BATMAN_YELLOW = '\033[38;5;220m'  # Amarelo vibrante do logo do Batman
-    GOTHAM_TEXT = '\033[38;5;250m'  # Cinza claro para o texto
+    BATMAN_YELLOW = '\033[38;5;220m'  # Amarelo vibrante do logo do Batman para destaque.
+    GOTHAM_TEXT = '\033[38;5;250m'  # Cinza claro para o texto principal.
     # Estilos
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-    ENDC = '\033[0m'
+    BOLD = '\033[1m'  # Estilo de negrito.
+    UNDERLINE = '\033[4m'  # Estilo de sublinhado.
+    ENDC = '\033[0m'  # Código para resetar as cores e estilos.
 
 
 class MecanismoBuscaAvancado:
@@ -280,26 +281,29 @@ class MecanismoBuscaAvancado:
     """
 
     def __init__(self, nome_arquivo_excel):
+        """Inicializa o mecanismo de busca, carregando a configuração e os dados."""
         self.nome_arquivo_excel = nome_arquivo_excel
-        self.dados_abas = {}
-        self.cache_busca = {}
-        self.estatisticas = {
+        self.dados_abas = {}  # Armazena os DataFrames de cada aba do Excel.
+        self.cache_busca = {}  # Cache para armazenar resultados de buscas recentes.
+        self.estatisticas = {  # Dicionário para monitorar a performance do sistema.
             'total_buscas': 0,
             'tempo_medio_busca': 0,
             'resultados_encontrados': 0
         }
-        self.config = self._carregar_configuracao()
-        self._carregar_dados()
+        self.config = self._carregar_configuracao()  # Carrega as configurações de busca.
+        self._carregar_dados()  # Inicia o carregamento do arquivo Excel.
 
     def _carregar_configuracao(self):
-        """Carrega as configurações do arquivo 'config.json' ou usa as padrão."""
+        """Carrega as configurações do arquivo 'config.json' ou usa as padrão (fallback)."""
         config_padrao = {
-            'max_resultados': 100,
-            'limiar_similaridade': 0.6,
-            'habilitar_cache': True,
-            'tamanho_cache': 1000,
-            'habilitar_busca_fuzzy': True,
+            'max_resultados': 100,  # Limite máximo de resultados a serem exibidos.
+            'limiar_similaridade': 0.6,  # Limite para considerar uma busca fuzzy como relevante.
+            'habilitar_cache': True,  # Flag para ativar/desativar o cache de busca.
+            'tamanho_cache': 1000,  # Número máximo de entradas no cache.
+            'habilitar_busca_fuzzy': True,  # Flag para ativar/desativar a busca por similaridade.
+            # Colunas usadas na busca e para exibir resultados.
             'colunas_prioritarias': ['PRESTADOR', 'PROCEDIMENTOS', 'TUSS', 'AMB'],
+            # Pesos para as colunas na busca por relevância (quanto maior, mais importante).
             'pesos_colunas': {
                 'PRESTADOR': 2.0,
                 'PROCEDIMENTOS': 1.8,
@@ -310,45 +314,52 @@ class MecanismoBuscaAvancado:
             }
         }
         try:
+            # Tenta carregar e aplicar configurações personalizadas.
             if os.path.exists('config.json'):
                 with open('config.json', 'r', encoding='utf-8') as f:
                     config_personalizada = json.load(f)
                     config_padrao.update(config_personalizada)
         except Exception as e:
+            # Caso haja erro no arquivo de configuração, usa as configurações padrão.
             print(f"{Colors.BATMAN_YELLOW}Aviso: Erro ao carregar configuração personalizada: {e}{Colors.ENDC}")
         return config_padrao
 
     def _carregar_dados(self):
-        """Carrega todos os dados do arquivo Excel para a memória."""
+        """Carrega todos os dados do arquivo Excel para a memória, otimizando o Pandas."""
         if not os.path.exists(self.nome_arquivo_excel):
+            # Erro se o arquivo principal não for encontrado.
             print(
                 f"{Colors.BATMAN_YELLOW}ERRO: Arquivo '{self.nome_arquivo_excel}' não detectado. Verifique a matriz de dados.{Colors.ENDC}")
             return
         try:
             inicio = time.time()
+            # Lê todas as abas do Excel em um dicionário de DataFrames.
             self.dados_abas = pd.read_excel(
                 self.nome_arquivo_excel,
-                sheet_name=None,
+                sheet_name=None,  # Lê todas as abas.
                 engine='openpyxl',
-                na_filter=False
+                na_filter=False  # Não trata 'NA' como NaN.
             )
-            self._preparar_dados_busca()
+            self._preparar_dados_busca()  # Prepara os dados após o carregamento.
             tempo_carregamento = time.time() - inicio
             print(f"{Colors.BATMAN_YELLOW}✓ Banco de dados online em {tempo_carregamento:.2f}s!{Colors.ENDC}")
             print(f"{Colors.GOTHAM_TEXT}Total de abas carregadas: {len(self.dados_abas)}{Colors.ENDC}")
         except Exception as e:
+            # Captura e exibe erros críticos durante o carregamento.
             print(f"{Colors.BATMAN_YELLOW}Falha crítica ao carregar o arquivo: {e}{Colors.ENDC}")
 
     def _preparar_dados_busca(self):
-        """Prepara os dados para busca, limpando e normalizando texto."""
+        """Prepara os dados para busca, limpando, normalizando texto e criando uma coluna de busca consolidada."""
         for nome_aba, df in self.dados_abas.items():
-            df_limpo = df.dropna(how='all')
-            df_limpo = df_limpo.fillna('')
+            df_limpo = df.dropna(how='all')  # Remove linhas completamente vazias.
+            df_limpo = df_limpo.fillna('')  # Substitui valores NaN/vazios por string vazia.
             for col in df_limpo.columns:
                 if df_limpo[col].dtype == 'object':
+                    # Normaliza o texto: minúsculas e remoção de acentos (unidecode).
                     df_limpo[col] = df_limpo[col].astype(str).str.lower().apply(
                         lambda x: unidecode(x) if x else ''
                     )
+            # Cria uma coluna '_TEXTO_BUSCA' com o conteúdo de toda a linha para busca rápida.
             df_limpo['_TEXTO_BUSCA'] = df_limpo.apply(
                 lambda row: ' '.join([str(val) for val in row.values if str(val).strip()]),
                 axis=1
@@ -356,94 +367,126 @@ class MecanismoBuscaAvancado:
             self.dados_abas[nome_aba] = df_limpo
 
     def buscar_avancada(self, nome_aba, termo, filtros=None, max_resultados=None):
-        """Executa a busca por um termo em uma aba específica, usando algoritmos combinados."""
+        """Executa a busca por um termo em uma aba específica, usando algoritmos combinados (exata, relevância, fuzzy)."""
         if not self.dados_abas or nome_aba not in self.dados_abas:
-            return pd.DataFrame()
+            return pd.DataFrame()  # Retorna DataFrame vazio se a aba não existir.
+
         inicio = time.time()
         df = self.dados_abas[nome_aba].copy()
         max_resultados = max_resultados or self.config['max_resultados']
         chave_cache = f"{nome_aba}_{termo}_{str(filtros)}_{max_resultados}"
+
+        # 1. Verifica o Cache
         if self.config['habilitar_cache'] and chave_cache in self.cache_busca:
             self.estatisticas['total_buscas'] += 1
             return self.cache_busca[chave_cache]
+
+        # 2. Aplica Filtros (se houver)
         if filtros:
             df = self._aplicar_filtros(df, filtros)
+
+        # 3. Executa a Busca Multi-Algoritmo
         resultados = self._busca_multi_algoritmo(df, termo, max_resultados)
+
+        # 4. Atualiza Estatísticas e Cache
         tempo_busca = time.time() - inicio
         self.estatisticas['total_buscas'] += 1
+        # Calcula o tempo médio de busca.
         self.estatisticas['tempo_medio_busca'] = (
                 (self.estatisticas['tempo_medio_busca'] * (self.estatisticas['total_buscas'] - 1) + tempo_busca)
                 / self.estatisticas['total_buscas']
         )
         self.estatisticas['resultados_encontrados'] += len(resultados)
+
         if self.config['habilitar_cache']:
+            # Gerencia o tamanho do cache, removendo o item mais antigo (FIFO) se estiver cheio.
             if len(self.cache_busca) >= self.config['tamanho_cache']:
                 self.cache_busca.pop(next(iter(self.cache_busca)))
             self.cache_busca[chave_cache] = resultados
+
         return resultados
 
     def _busca_multi_algoritmo(self, df, termo, max_resultados):
         """Combina resultados de busca exata, por relevância e fuzzy para um resultado mais completo."""
         termo_limpo = unidecode(termo).lower().strip()
+
+        # Executa os diferentes tipos de busca.
         resultados_exatos = self._busca_exata(df, termo_limpo)
         resultados_relevancia = self._busca_por_relevancia(df, termo_limpo, max_resultados)
         resultados_fuzzy = self._busca_fuzzy(df, termo_limpo, max_resultados)
+
+        # Combina os DataFrames, remove duplicatas e limita ao máximo de resultados.
         df_combinado = pd.concat([resultados_exatos, resultados_relevancia, resultados_fuzzy], axis=0)
         df_resultado = df_combinado.drop_duplicates(keep='first').head(max_resultados)
         return df_resultado
 
     def _busca_exata(self, df, termo):
-        """Busca por correspondência exata do termo nas colunas."""
+        """Busca por correspondência exata do termo na coluna consolidada '_TEXTO_BUSCA'."""
         mascara = df['_TEXTO_BUSCA'].str.contains(termo, na=False)
         return df[mascara]
 
     def _busca_por_relevancia(self, df, termo, max_resultados):
-        """Busca e pontua os resultados com base na relevância e posição do termo."""
+        """Busca e pontua os resultados com base na relevância e posição do termo nas colunas prioritárias."""
         resultados = []
         for _, row in df.iterrows():
             score = 0
+            # Pontuação baseada nos pesos definidos em 'pesos_colunas'.
             for col, peso in self.config['pesos_colunas'].items():
                 if col in df.columns:
                     if termo in str(row[col]):
-                        score += peso
+                        score += peso  # Pontuação base.
                         if str(row[col]).startswith(termo):
-                            score += 0.5
+                            score += 0.5  # Bônus para termos no início da célula.
                         if f' {termo} ' in f' {str(row[col])} ':
-                            score += 0.3
+                            score += 0.3  # Bônus para palavras inteiras (separadas por espaço).
             if score > 0:
                 resultados.append((score, row))
+
+        # Ordena e retorna os resultados mais relevantes.
         resultados.sort(key=lambda x: x[0], reverse=True)
         return pd.DataFrame([row for _, row in resultados[:max_resultados]])
 
     def _busca_fuzzy(self, df, termo, max_resultados):
-        """Busca por similaridade fonética ou de escrita (fuzzy)."""
+        """Busca por similaridade de escrita/fonética (fuzzy) usando SequenceMatcher."""
+        if not self.config['habilitar_busca_fuzzy']:
+            return pd.DataFrame()
+
         resultados = []
         for _, row in df.iterrows():
             melhor_similaridade = 0
+            # Calcula a similaridade (ratio) apenas nas colunas prioritárias.
             for col in self.config['colunas_prioritarias']:
                 if col in df.columns and str(row[col]).strip():
+                    # SequenceMatcher calcula a similaridade entre o termo de busca e o conteúdo da célula.
                     similaridade = SequenceMatcher(None, termo, str(row[col])).ratio()
                     melhor_similaridade = max(melhor_similaridade, similaridade)
+
+            # Filtra resultados que atingem o limiar de similaridade.
             if melhor_similaridade >= self.config['limiar_similaridade']:
                 resultados.append((melhor_similaridade, row))
+
+        # Ordena e retorna os resultados por maior similaridade.
         resultados.sort(key=lambda x: x[0], reverse=True)
         return pd.DataFrame([row for _, row in resultados[:max_resultados]])
 
     def _aplicar_filtros(self, df, filtros):
-        """Aplica filtros adicionais aos resultados da busca."""
+        """Aplica filtros adicionais aos resultados da busca usando correspondência de texto."""
         df_filtrado = df.copy()
         for coluna, valor in filtros.items():
             if coluna in df_filtrado.columns and valor:
+                # Cria uma máscara para filtrar a coluna pelo valor.
                 mascara = df_filtrado[coluna].str.contains(str(valor), na=False)
                 df_filtrado = df_filtrado[mascara]
         return df_filtrado
 
     def exibir_resultados_avancados(self, resultados, termo, nome_aba, tempo_busca=None):
-        """Exibe os resultados da busca de forma estilizada no terminal."""
+        """Exibe os resultados da busca de forma estilizada no terminal (Tema Batman)."""
         if resultados.empty:
             print(
                 f"\n{Colors.BATMAN_YELLOW}Nenhum resultado encontrado para '{termo}' no setor '{nome_aba}'.{Colors.ENDC}")
             return
+
+        # Exibe o cabeçalho do relatório de busca.
         print(f"\n{Colors.BATMAN_YELLOW}>>> Resultado da Busca Subterrânea <<<{Colors.ENDC}")
         print(f"{Colors.GOTHAM_TEXT}┌─ Termo de busca: {Colors.BOLD}{Colors.BATMAN_YELLOW}{termo}{Colors.ENDC}")
         print(f"{Colors.GOTHAM_TEXT}├─ Setor de dados: {Colors.BOLD}{Colors.BATMAN_YELLOW}{nome_aba}{Colors.ENDC}")
@@ -453,59 +496,66 @@ class MecanismoBuscaAvancado:
             print(
                 f"{Colors.GOTHAM_TEXT}└─ Tempo de execução: {Colors.BOLD}{Colors.BATMAN_YELLOW}{tempo_busca:.3f}s{Colors.ENDC}")
         print(f"{Colors.GOTHAM_TEXT}-----------------------------------------{Colors.ENDC}")
+
+        # Escolhe o método de exibição baseado no nome da aba.
         if 'infiltracao' in nome_aba.lower() or 'medicacao' in nome_aba.lower():
             self._exibir_resultados_por_tema(resultados)
         else:
             self._exibir_generico_futurista(resultados)
+
         print(f"\n{Colors.GOTHAM_TEXT}-----------------------------------------{Colors.ENDC}")
 
     def _exibir_resultados_por_tema(self, resultados):
-        """Agrupa e exibe resultados por categorias específicas."""
+        """Agrupa e exibe resultados por categorias específicas (e.g., Infiltração/Bloqueio)."""
         temas = {
             "INFILTRAÇÃO / BLOQUEIO": ['infiltracao', 'infiltração', 'bloqueio'],
             "RETIRADA DE MEDICAMENTO": ['retirada', 'remocao', 'remover'],
         }
         df_restantes = resultados.copy()
         for titulo_tema, palavras_chave in temas.items():
+            # Cria máscara para filtrar por palavras-chave no texto consolidado.
             mask = df_restantes['_TEXTO_BUSCA'].str.contains('|'.join(palavras_chave), na=False)
             df_tema = df_restantes[mask]
             if not df_tema.empty:
                 self._exibir_bloco_categoria(titulo_tema, df_tema)
+            # Atualiza o DataFrame restante, excluindo os resultados já exibidos.
             df_restantes = df_restantes[~mask]
+
         if not df_restantes.empty:
             self._exibir_bloco_categoria("Outros Resultados (Sem Categoria)", df_restantes)
 
     def _exibir_bloco_categoria(self, titulo, df):
-        """Função auxiliar para exibir blocos de resultados temáticos."""
+        """Função auxiliar para exibir blocos de resultados temáticos com título."""
         if not df.empty:
             print(f"\n{Colors.BOLD}{Colors.BATMAN_YELLOW}----- {titulo} ({len(df)}) -----{Colors.ENDC}")
             self._exibir_generico_futurista(df)
 
     def _exibir_generico_futurista(self, df):
-        """Formata e exibe os resultados da busca de forma genérica e estilizada."""
+        """Formata e exibe os resultados da busca de forma genérica e estilizada por linha."""
         for i, (_, row) in enumerate(df.iterrows(), 1):
             print(
                 f"\n{Colors.BOLD}{Colors.BATMAN_YELLOW}═══════════════ [{i:03d}] RESULTADO ═══════════════{Colors.ENDC}")
             key_color = Colors.GOTHAM_TEXT
             value_color = Colors.BOLD + Colors.BATMAN_YELLOW
+            # Colunas a serem exibidas primeiro e com destaque (configuráveis).
             colunas_prioritarias = ['PRESTADOR', 'PROCEDIMENTOS', 'TUSS', 'AMB', 'CNPJ', 'RAZAO SOCIAL', 'ZONA/REGIÃO',
                                     'CD PESSOA']
 
+            # Exibe colunas prioritárias.
             for col in colunas_prioritarias:
                 if col in row.index and str(row[col]).strip():
-                    # Exibe colunas prioritárias com destaque
                     print(f"  {key_color}{str(col).upper()}:{Colors.ENDC} {value_color}{row[col]}{Colors.ENDC}")
 
+            # Exibe outras colunas não prioritárias (para dados adicionais).
             for col, val in row.items():
                 if str(val).strip() and col != '_TEXTO_BUSCA' and col not in colunas_prioritarias:
-                    # Exibe outras colunas não prioritárias
                     print(f"  {key_color}{str(col).upper()}:{Colors.ENDC} {value_color}{val}{Colors.ENDC}")
 
             print(
                 f"{Colors.BOLD}{Colors.BATMAN_YELLOW}═══════════════════════════════════════════════════════{Colors.ENDC}")
 
     def mostrar_estatisticas(self):
-        """Exibe as estatísticas de uso e performance do sistema."""
+        """Exibe as estatísticas de uso e performance do sistema (Relatório de Status)."""
         print(f"\n{Colors.BATMAN_YELLOW}>>> Relatório de Status do Submundo <<<{Colors.ENDC}")
         print(
             f"{Colors.GOTHAM_TEXT}Total de consultas: {Colors.BOLD}{self.estatisticas['total_buscas']}{Colors.ENDC}")
@@ -519,14 +569,15 @@ class MecanismoBuscaAvancado:
         print(f"{Colors.BATMAN_YELLOW}-----------------------------------------{Colors.ENDC}")
 
     def limpar_cache(self):
-        """Limpa o cache de busca para liberar memória."""
+        """Limpa o cache de busca (dicionário 'cache_busca') para liberar memória."""
         self.cache_busca.clear()
         print(f"{Colors.BATMAN_YELLOW}✓ Cache de busca limpo com sucesso! {Colors.ENDC}")
 
     def salvar_configuracao(self):
-        """Salva as configurações atuais do sistema em um arquivo JSON."""
+        """Salva as configurações atuais do sistema em um arquivo JSON ('config.json')."""
         try:
             with open('config.json', 'w', encoding='utf-8') as f:
+                # Salva o dicionário de configuração com indentação legível.
                 json.dump(self.config, f, indent=2, ensure_ascii=False)
             print(f"{Colors.BATMAN_YELLOW}✓ Configuração do sistema salva em 'config.json'!{Colors.ENDC}")
         except Exception as e:
@@ -539,12 +590,12 @@ class MecanismoBuscaAvancado:
 # Funções simples que auxiliam na formatação do terminal e outras tarefas menores.
 
 def center_text(text, width):
-    """Função utilitária para centralizar texto no terminal."""
+    """Função utilitária para centralizar texto no terminal, baseada na largura da janela."""
     return text.center(width)
 
 
 def get_user_confirmation():
-    """Pede confirmação do usuário para gerar a fraseologia."""
+    """Pede confirmação do usuário para gerar a fraseologia e prosseguir."""
     while True:
         confirm = input(
             f"{Colors.GOTHAM_TEXT}Deseja realmente gerar essa fraseologia? (S/N): {Colors.BATMAN_YELLOW}").strip().upper()
@@ -559,15 +610,16 @@ def get_user_confirmation():
 # =================================================================================
 # BLOCO 5: FUNÇÕES DE GERAÇÃO DE FRASES
 # =================================================================================
-# Funções dedicadas à criação de frases prontas para autorizações, negativas e
-# reembolsos, com a opção de copiar o texto para a área de transferência.
+# Funções dedicadas à criação de frases prontas (fraseologias) para autorizações,
+# negativas e orientações, com a opção de copiar o texto para a área de transferência.
 
 def gerar_texto_reembolso():
-    """Gera e copia a fraseologia para orientação de reembolso."""
+    """Gera, exibe e copia a fraseologia para orientação de reembolso."""
     try:
         frase_reembolso = FERRAMENTAS_TEXTO['REEMBOLSO']['fraseologia']
-        pyperclip.copy(frase_reembolso)
+        pyperclip.copy(frase_reembolso)  # Copia para a área de transferência.
         print(f"\n{Colors.BATMAN_YELLOW}✓ Texto de Reembolso copiado para a área de transferência!{Colors.ENDC}")
+        # Exibe o texto gerado no terminal.
         print(f"\n{Colors.BOLD}{Colors.BATMAN_YELLOW}----------------------------------------{Colors.ENDC}")
         print(f"{Colors.GOTHAM_TEXT}{frase_reembolso}{Colors.ENDC}")
         print(f"{Colors.BOLD}{Colors.BATMAN_YELLOW}----------------------------------------{Colors.ENDC}")
@@ -576,8 +628,9 @@ def gerar_texto_reembolso():
 
 
 def gerar_fraseologia_positiva():
-    """Gera e copia uma fraseologia de autorização para exames ou procedimentos."""
+    """Gera e copia uma fraseologia de autorização para exames ou procedimentos (vários itens)."""
     try:
+        # Pede o número de procedimentos para formatar o corpo da frase.
         try:
             num_procedimentos_str = input(
                 f"{Colors.GOTHAM_TEXT}Quantos procedimentos serão autorizados? {Colors.BATMAN_YELLOW}").strip()
@@ -589,6 +642,7 @@ def gerar_fraseologia_positiva():
             print(f"{Colors.BATMAN_YELLOW}Entrada inválida. Digite um número inteiro.{Colors.ENDC}")
             return
 
+        # Estrutura da frase de autorização.
         fraseologia_base = """
 PREZADO(A) SR(A). [_NM_BENEFICIARIO_],
 NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
@@ -596,6 +650,7 @@ NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
 SUA SOLICITAÇÃO DE AUTORIZAÇÃO PARA EXAME FOI RECEBIDA COM OS SEGUINTES DADOS:
 """
         corpo_fraseologia = ""
+        # Loop para coletar dados de cada procedimento.
         for i in range(num_procedimentos):
             procedimento = input(
                 f"{Colors.GOTHAM_TEXT}Procedimento ({i + 1}/{num_procedimentos}): {Colors.BATMAN_YELLOW}").strip().upper()
@@ -605,6 +660,8 @@ SUA SOLICITAÇÃO DE AUTORIZAÇÃO PARA EXAME FOI RECEBIDA COM OS SEGUINTES DADO
             if not procedimento or not senha or not prestador:
                 print(f"{Colors.BATMAN_YELLOW}Todos os campos são obrigatórios. Saindo.{Colors.ENDC}")
                 return
+
+            # Formata o bloco de texto para o procedimento atual.
             corpo_fraseologia += f"\nPROCEDIMENTO: {procedimento}"
             corpo_fraseologia += f"\nSENHA: {senha}"
             corpo_fraseologia += f"\nPRESTADOR: {prestador}"
@@ -615,12 +672,15 @@ SUA SOLICITAÇÃO DE AUTORIZAÇÃO PARA EXAME FOI RECEBIDA COM OS SEGUINTES DADO
 EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PELOS TELEFONES: 4090-1740, 0800 409 1740 OU 0800 463 4648.
 """
         frase_final = fraseologia_base + corpo_fraseologia + mensagem_contato
+
         if not get_user_confirmation():
             print(f"{Colors.BATMAN_YELLOW}Geração cancelada.{Colors.ENDC}")
             return
 
+        # Limpa quebras de linha e espaços extras antes de copiar.
         frase_limpa = os.linesep.join([s.strip() for s in frase_final.splitlines() if s.strip()])
         pyperclip.copy(frase_limpa)
+
         print(
             f"\n{Colors.BATMAN_YELLOW}✓ Fraseologia de Autorização copiada para a área de transferência!{Colors.ENDC}")
         print(f"\n{Colors.BOLD}{Colors.BATMAN_YELLOW}----------------------------------------{Colors.ENDC}")
@@ -631,18 +691,24 @@ EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PE
 
 
 def gerar_fraseologia_negativa():
-    """Gera e copia uma fraseologia de negativa com base em um código."""
+    """Gera e copia uma fraseologia de negativa com base em um código escolhido e preenchimento de placeholders."""
     print(f"\n{Colors.BOLD}{Colors.BATMAN_YELLOW}--- Ferramenta de Negativa ---{Colors.ENDC}")
+
+    # Exibe os códigos disponíveis para o usuário.
     print(f"{Colors.GOTHAM_TEXT}Códigos de negativa disponíveis:{Colors.ENDC}")
     for codigo, info in DADOS_RESTRICOES.items():
         print(f"{Colors.BATMAN_YELLOW}[{codigo}]{Colors.ENDC} - {info['nome']}")
+
     escolha_negativa = input(f"{Colors.GOTHAM_TEXT}Escolha o código de negativa: {Colors.BATMAN_YELLOW}").strip()
     if escolha_negativa not in DADOS_RESTRICOES:
         print(f"{Colors.BATMAN_YELLOW}Código de negativa inválido.{Colors.ENDC}")
         return
+
     info_negativa = DADOS_RESTRICOES[escolha_negativa]
     frase_modelo = info_negativa['fraseologia']
     campos_a_preencher = {}
+
+    # Lista de placeholders possíveis e seus nomes amigáveis.
     campos_disponiveis = [
         ('procedimento', '{procedimento}'),
         ('procedimento01', '{procedimento01}'),
@@ -652,15 +718,21 @@ def gerar_fraseologia_negativa():
         ('cidade_estado', '{cidade_estado}'),
         ('nome_plano', '{nome_plano}')
     ]
+
+    # Verifica quais placeholders estão presentes na fraseologia e pede o preenchimento.
     for nome_campo, placeholder in campos_disponiveis:
         if placeholder in frase_modelo:
+            # Personaliza o prompt de entrada dependendo do campo (data, cidade, etc.).
             if nome_campo == 'data_disponivel' or nome_campo == 'data_vigencia':
                 input_prompt = f"{Colors.GOTHAM_TEXT}{nome_campo.replace('_', ' ').capitalize()} (dd/mm/aaaa): {Colors.BATMAN_YELLOW}"
             elif nome_campo == 'cidade_estado':
                 input_prompt = f"{Colors.GOTHAM_TEXT}Cidade ou Estado: {Colors.BATMAN_YELLOW}"
             else:
                 input_prompt = f"{Colors.GOTHAM_TEXT}{nome_campo.replace('_', ' ').capitalize()}: {Colors.BATMAN_YELLOW}"
+
             valor_campo = input(input_prompt).strip()
+
+            # Validação: Alguns campos são obrigatórios.
             if not valor_campo and nome_campo in ['procedimento', 'procedimento01', 'procedimento02', 'data_disponivel',
                                                   'data_vigencia', 'cidade_estado']:
                 print(
@@ -674,12 +746,16 @@ def gerar_fraseologia_negativa():
 
     try:
         frase_gerada = frase_modelo
+        # Substitui os placeholders na frase modelo pelos valores inseridos.
         for placeholder, valor in campos_a_preencher.items():
             if valor:
                 frase_gerada = frase_gerada.replace(placeholder, valor)
+
         frase_limpa = os.linesep.join([s.strip() for s in frase_gerada.splitlines() if s.strip()])
         pyperclip.copy(frase_limpa)
+
         print(f"\n{Colors.BATMAN_YELLOW}✓ Fraseologia de Negativa copiada para a área de transferência!{Colors.ENDC}")
+        # Exibe o texto gerado.
         print(f"\n{Colors.BOLD}{Colors.BATMAN_YELLOW}----------------------------------------{Colors.ENDC}")
         print(f"{Colors.GOTHAM_TEXT}{frase_limpa}{Colors.ENDC}")
         print(f"{Colors.BOLD}{Colors.BATMAN_YELLOW}----------------------------------------{Colors.ENDC}")
@@ -688,15 +764,19 @@ def gerar_fraseologia_negativa():
 
 
 def gerar_fraseologia_finalizacao():
-    """Gera e copia uma fraseologia de finalização com base em um código."""
+    """Gera e copia uma fraseologia de finalização (ferramentas de texto auxiliares)."""
     print(f"\n{Colors.BOLD}{Colors.BATMAN_YELLOW}--- Ferramentas de Finalização ---{Colors.ENDC}")
+
+    # Exibe as opções de ferramentas de finalização.
     print(f"{Colors.GOTHAM_TEXT}Códigos de finalização disponíveis:{Colors.ENDC}")
     opcoes = list(FERRAMENTAS_FINALIZACAO.keys())
     for i, codigo in enumerate(opcoes):
         print(f"{Colors.BATMAN_YELLOW}[{i + 1}]{Colors.ENDC} - {FERRAMENTAS_FINALIZACAO[codigo]['nome']}")
+
     escolha_finalizacao = input(f"{Colors.GOTHAM_TEXT}Escolha o código de finalização: {Colors.BATMAN_YELLOW}").strip()
 
     try:
+        # Mapeia a escolha numérica do usuário para a chave real do dicionário.
         escolha_finalizacao = opcoes[int(escolha_finalizacao) - 1]
     except (ValueError, IndexError):
         print(f"{Colors.BATMAN_YELLOW}Código de finalização inválido.{Colors.ENDC}")
@@ -708,11 +788,14 @@ def gerar_fraseologia_finalizacao():
 
     # Check for specific placeholders and prompt for them
     placeholders = ['{documentacao}', '{procedimento}', '{senha}', '{prestador}']
+    # Pede o preenchimento de placeholders específicos que a frase atual possua.
     for placeholder in placeholders:
         if placeholder in frase_modelo:
             campo_nome = placeholder.strip('{}')
             valor_campo = input(
                 f"{Colors.GOTHAM_TEXT}{campo_nome.replace('_', ' ').capitalize()}: {Colors.BATMAN_YELLOW}").strip()
+
+            # Validação: Alguns campos são obrigatórios.
             if not valor_campo and campo_nome in ['procedimento', 'senha', 'prestador', 'documentacao']:
                 print(
                     f"{Colors.BATMAN_YELLOW}O campo '{campo_nome.replace('_', ' ')}' é obrigatório. Saindo.{Colors.ENDC}")
@@ -725,13 +808,16 @@ def gerar_fraseologia_finalizacao():
 
     try:
         frase_gerada = frase_modelo
+        # Substitui os placeholders.
         for placeholder, valor in campos_a_preencher.items():
             frase_gerada = frase_gerada.replace(placeholder, valor)
 
         frase_limpa = os.linesep.join([s.strip() for s in frase_gerada.splitlines() if s.strip()])
         pyperclip.copy(frase_limpa)
+
         print(
             f"\n{Colors.BATMAN_YELLOW}✓ Fraseologia de Finalização copiada para a área de transferência!{Colors.ENDC}")
+        # Exibe o texto gerado.
         print(f"\n{Colors.BOLD}{Colors.BATMAN_YELLOW}----------------------------------------{Colors.ENDC}")
         print(f"{Colors.GOTHAM_TEXT}{frase_limpa}{Colors.ENDC}")
         print(f"{Colors.BOLD}{Colors.BATMAN_YELLOW}----------------------------------------{Colors.ENDC}")
@@ -746,8 +832,9 @@ def gerar_fraseologia_finalizacao():
 # com o usuário e a navegação dentro do sistema.
 
 def manter_sessao_fraseologia(initial_choice):
-    """Permite ao usuário gerar múltiplas frases sem voltar ao menu principal."""
+    """Permite ao usuário gerar múltiplas frases sem voltar ao menu principal de ferramentas de texto."""
     while True:
+        # Chama a função de geração de fraseologia baseada na última ou primeira escolha.
         if initial_choice == 'F':
             gerar_fraseologia_positiva()
         elif initial_choice == 'N':
@@ -761,6 +848,7 @@ def manter_sessao_fraseologia(initial_choice):
         else:
             print(f"{Colors.BATMAN_YELLOW}✗ Erro: Opção inválida. Tente novamente.{Colors.ENDC}")
 
+        # Menu de loop após a geração de uma frase.
         print(f"\n{Colors.GOTHAM_TEXT}════════════════════════════════════════{Colors.ENDC}")
         print(
             f"{Colors.BOLD}{Colors.BATMAN_YELLOW}► [F]{Colors.ENDC} {Colors.GOTHAM_TEXT}Gerar outra Autorização{Colors.ENDC}")
@@ -780,15 +868,17 @@ def manter_sessao_fraseologia(initial_choice):
 
 
 def exibir_menu_ferramentas_texto(terminal_width):
-    """Exibe o menu de ferramentas de texto e processa a escolha do usuário."""
+    """Exibe o menu principal de ferramentas de texto e processa a escolha do usuário."""
     while True:
-        os.system('cls' if os.name == 'nt' else 'clear')
+        os.system('cls' if os.name == 'nt' else 'clear')  # Limpa a tela.
+        # Desenha o cabeçalho do menu.
         print(f"\n{Colors.GOTHAM_TEXT}{center_text('═' * 60, terminal_width)}{Colors.ENDC}")
         print(
             center_text(f"{Colors.BOLD}{Colors.BATMAN_YELLOW}--- FERRAMENTAS DE TEXTO ---{Colors.ENDC}",
                         terminal_width + 12))
         print(
             f"\n{center_text(f'{Colors.UNDERLINE}{Colors.BATMAN_YELLOW}>>> OPÇÕES DISPONÍVEIS <<<{Colors.ENDC}', terminal_width + 2)}")
+        # Opções do menu.
         print(
             f"  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [F]{Colors.ENDC} {Colors.GOTHAM_TEXT}Gerar Fraseologia de Autorização{Colors.ENDC}")
         print(
@@ -802,14 +892,9 @@ def exibir_menu_ferramentas_texto(terminal_width):
         print(f"{Colors.GOTHAM_TEXT}{center_text('═' * 60, terminal_width)}{Colors.ENDC}")
 
         escolha = input(f"{Colors.GOTHAM_TEXT}Comando > {Colors.BATMAN_YELLOW}").strip().upper()
-        if escolha == 'F':
-            gerar_fraseologia_positiva()
-        elif escolha == 'N':
-            gerar_fraseologia_negativa()
-        elif escolha == 'R':
-            gerar_texto_reembolso()
-        elif escolha == 'T':
-            gerar_fraseologia_finalizacao()
+        # Chama a função de geração e entra em um loop para continuar gerando.
+        if escolha in ['F', 'N', 'R', 'T']:
+            manter_sessao_fraseologia(escolha)
         elif escolha in ['V', 'VOLTAR']:
             break
         else:
@@ -818,15 +903,18 @@ def exibir_menu_ferramentas_texto(terminal_width):
 
 
 def exibir_menu_setores_dados(buscador, nomes_abas, terminal_width):
-    """Exibe o menu para seleção de setores de dados e gerencia a busca."""
+    """Exibe o menu para seleção de setores de dados (abas do Excel) e gerencia a busca."""
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')
+        # Desenha o cabeçalho.
         print(f"\n{Colors.GOTHAM_TEXT}{center_text('═' * 60, terminal_width)}{Colors.ENDC}")
         print(
             center_text(f"{Colors.BOLD}{Colors.BATMAN_YELLOW}--- SETORES DE DADOS ---{Colors.ENDC}",
                         terminal_width + 12))
         print(center_text(f"{Colors.BATMAN_YELLOW}Selecione um setor de dados:{Colors.ENDC}",
                           terminal_width + 12))
+
+        # Lógica para exibir as abas em duas colunas.
         colunas = 2
         total_abas = len(nomes_abas)
         abas_por_coluna = (total_abas + colunas - 1) // colunas
@@ -837,6 +925,7 @@ def exibir_menu_setores_dados(buscador, nomes_abas, terminal_width):
             col_width = min_col_width
         total_menu_width = colunas * (col_width + 2)
         left_margin = max(0, (terminal_width - total_menu_width) // 2)
+
         for i in range(abas_por_coluna):
             linha = " " * left_margin
             for j in range(colunas):
@@ -848,26 +937,36 @@ def exibir_menu_setores_dados(buscador, nomes_abas, terminal_width):
                     linha += " " * (col_width + 2)
             if linha.strip():
                 print(linha)
+
         print(
             f"\n  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [V]{Colors.ENDC} {Colors.GOTHAM_TEXT}Voltar ao menu principal{Colors.ENDC}")
         print(f"{Colors.GOTHAM_TEXT}{center_text('═' * 60, terminal_width)}{Colors.ENDC}")
 
         escolha_aba = input(f"{Colors.GOTHAM_TEXT}Comando > {Colors.BATMAN_YELLOW}").strip().upper()
+
         if escolha_aba in ['V', 'VOLTAR']:
             break
+
+        # Verifica se a escolha é um número válido de aba.
         if escolha_aba.isdigit() and 1 <= int(escolha_aba) <= len(nomes_abas):
             nome_aba_selecionada = nomes_abas[int(escolha_aba) - 1]
+
             print(f"\n{Colors.BOLD}{Colors.BATMAN_YELLOW}--- STATUS DO SETOR ---{Colors.ENDC}")
             print(
                 f"  {Colors.BATMAN_YELLOW}► Setor {Colors.BOLD}{nome_aba_selecionada}{Colors.ENDC} {Colors.BATMAN_YELLOW}ativado. Status: {Colors.BOLD}[ONLINE]{Colors.ENDC}")
             print(f"  {Colors.GOTHAM_TEXT}Aguardando consulta...{Colors.ENDC}")
+
+            # Loop de busca contínua dentro da aba selecionada.
             termos_voltar = ['V', 'VOLTAR']
             while True:
                 termo = input(
                     f"\n{Colors.GOTHAM_TEXT}Termo de busca (digite '{' ou '.join(termos_voltar)}' para retornar ao menu):{Colors.ENDC}\n{Colors.BATMAN_YELLOW}➜ {Colors.ENDC}").strip()
+
                 if termo.upper() in termos_voltar:
                     break
+
                 if termo:
+                    # Executa a busca avançada e exibe os resultados.
                     inicio = time.time()
                     resultados = buscador.buscar_avancada(nome_aba_selecionada, termo)
                     tempo = time.time() - inicio
@@ -878,17 +977,19 @@ def exibir_menu_setores_dados(buscador, nomes_abas, terminal_width):
 
 
 def exibir_menu_ferramentas_sistema(buscador, terminal_width):
-    """Exibe o menu de ferramentas do sistema e gerencia as ações."""
+    """Exibe o menu de ferramentas de gestão e manutenção do sistema."""
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')
+        # Desenha o cabeçalho.
         print(f"\n{Colors.GOTHAM_TEXT}{center_text('═' * 60, terminal_width)}{Colors.ENDC}")
         print(
             center_text(f"{Colors.BOLD}{Colors.BATMAN_YELLOW}--- FERRAMENTAS DO SISTEMA ---{Colors.ENDC}",
                         terminal_width + 12))
         print(
             f"\n{center_text(f'{Colors.UNDERLINE}{Colors.BATMAN_YELLOW}>>> OPÇÕES DISPONÍVEIS <<<{Colors.ENDC}', terminal_width + 2)}")
+        # Opções do menu.
         print(
-            f"  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [ST]{Colors.ENDC} {Colors.GOTHAM_TEXT}Relatório de status{Colors.ENDC}")
+            f"  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [ST]{Colors.ENDC} {Colors.GOTHAM_TEXT}Relatório de status (Estatísticas){Colors.ENDC}")
         print(
             f"  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [CA]{Colors.ENDC} {Colors.GOTHAM_TEXT}Limpar cache de busca{Colors.ENDC}")
         print(
@@ -900,6 +1001,7 @@ def exibir_menu_ferramentas_sistema(buscador, terminal_width):
         print(f"{Colors.GOTHAM_TEXT}{center_text('═' * 60, terminal_width)}{Colors.ENDC}")
 
         escolha = input(f"{Colors.GOTHAM_TEXT}Comando > {Colors.BATMAN_YELLOW}").strip().upper()
+
         if escolha == 'ST':
             buscador.mostrar_estatisticas()
         elif escolha == 'CA':
@@ -907,6 +1009,7 @@ def exibir_menu_ferramentas_sistema(buscador, terminal_width):
         elif escolha == 'CFG':
             buscador.salvar_configuracao()
         elif escolha == 'RE':
+            # Reinicia a execução do script.
             os.system('cls' if os.name == 'nt' else 'clear')
             print(f"{Colors.BATMAN_YELLOW}Reiniciando sistema...{Colors.ENDC}")
             main()
@@ -926,20 +1029,23 @@ def exibir_menu_ferramentas_sistema(buscador, terminal_width):
 
 def main():
     """Função principal que inicializa e executa o sistema."""
-    warnings.filterwarnings('ignore')
-    colorama.init()
+    warnings.filterwarnings('ignore')  # Ignora avisos de bibliotecas.
+    colorama.init()  # Inicializa o colorama para suporte de cores no terminal.
 
     try:
         terminal_width = os.get_terminal_size().columns
     except OSError:
-        terminal_width = 80
+        terminal_width = 80  # Valor padrão se não conseguir obter a largura.
 
+    # Exibe a tela de carregamento e inicialização (estilizada).
     print(f"\n{Colors.BOLD}{Colors.GOTHAM_TEXT}")
     print(center_text("INICIANDO SUBMUNDO DAS TREVAS", terminal_width))
     print(center_text("═" * terminal_width, terminal_width))
     print(center_text("SISTEMA SUBTERRÂNEO", terminal_width))
     print(f"{Colors.ENDC}")
     print(f"{Colors.GOTHAM_TEXT}Calibrando matriz de dados...{Colors.ENDC}")
+
+    # Barra de progresso de inicialização (simulada com sleep).
     bar_length = terminal_width - 20
     for i in range(11):
         progress = i * 10
@@ -951,6 +1057,7 @@ def main():
     sys.stdout.write(f"\r{Colors.BATMAN_YELLOW}Calibração concluída!{Colors.ENDC}\n")
     sys.stdout.flush()
 
+    # Tenta encontrar o arquivo da matriz de dados 'BATMAN.xlsx' em dois caminhos pré-definidos.
     caminho_local = 'BATMAN.xlsx'
     caminho_completo = r'C:\Users\marcos.oliveira7\Documents\TREVAS\SUBMUNDO DAS TREVAS-main\BATMAN.xlsx'
 
@@ -961,19 +1068,23 @@ def main():
         nome_arquivo = caminho_completo
         print(f"{Colors.BATMAN_YELLOW}✓ Conexão estabelecida com {Colors.BOLD}{caminho_completo}{Colors.ENDC}")
     else:
+        # Erro se o arquivo não for encontrado em nenhum dos caminhos.
         print(f"{Colors.BATMAN_YELLOW}✗ ERRO FATAL: Matriz de dados 'BATMAN.xlsx' não encontrada.{Colors.ENDC}")
         print(f"  Verifique os caminhos: {caminho_local} ou {caminho_completo}")
         return
 
+    # Inicializa o objeto principal de busca e carrega os dados.
     buscador = MecanismoBuscaAvancado(nome_arquivo)
     if not buscador.dados_abas:
         print(f"{Colors.BATMAN_YELLOW}✗ ERRO: Falha ao carregar os setores de dados.{Colors.ENDC}")
         return
 
-    nomes_abas = list(buscador.dados_abas.keys())
+    nomes_abas = list(buscador.dados_abas.keys())  # Obtém os nomes das abas para o menu.
 
+    # Loop do Menu Principal.
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')
+        # Desenha o menu principal.
         print(f"\n{Colors.GOTHAM_TEXT}{center_text('═' * 60, terminal_width)}{Colors.ENDC}")
         print(
             center_text(f"{Colors.BOLD}{Colors.BATMAN_YELLOW}--- SUBMUNDO DAS TREVAS ---{Colors.ENDC}",
@@ -983,17 +1094,18 @@ def main():
         print(
             f"\n{center_text(f'{Colors.UNDERLINE}{Colors.BATMAN_YELLOW}>>> PÁGINAS <<<{Colors.ENDC}', terminal_width + 2)}")
         print(
-            f"  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [1]{Colors.ENDC} {Colors.GOTHAM_TEXT}Ferramentas de Texto{Colors.ENDC}")
+            f"  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [1]{Colors.ENDC} {Colors.GOTHAM_TEXT}Ferramentas de Texto (Fraseologias){Colors.ENDC}")
         print(
-            f"  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [2]{Colors.ENDC} {Colors.GOTHAM_TEXT}Setores de Dados{Colors.ENDC}")
+            f"  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [2]{Colors.ENDC} {Colors.GOTHAM_TEXT}Setores de Dados (Busca Avançada){Colors.ENDC}")
         print(
-            f"  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [3]{Colors.ENDC} {Colors.GOTHAM_TEXT}Ferramentas do Sistema{Colors.ENDC}")
+            f"  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [3]{Colors.ENDC} {Colors.GOTHAM_TEXT}Ferramentas do Sistema (Config/Cache/Status){Colors.ENDC}")
         print(
             f"\n  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [0]{Colors.ENDC} {Colors.GOTHAM_TEXT}Encerrar sistema{Colors.ENDC}")
         print(f"{Colors.GOTHAM_TEXT}{center_text('═' * 60, terminal_width)}{Colors.ENDC}")
 
         escolha = input(f"{Colors.GOTHAM_TEXT}Comando > {Colors.BATMAN_YELLOW}").strip()
 
+        # Processa a escolha do menu principal.
         if escolha == '0':
             print(
                 f"\n{Colors.BATMAN_YELLOW}Sistema SUBMUNDO DAS TREVAS encerrado. Volte sempre para mais alegria nos dados!{Colors.ENDC}")
