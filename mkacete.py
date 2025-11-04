@@ -152,15 +152,27 @@ EM CASO DE DÚVIDAS, POR FAVOR, ENTRE EM CONTATO COM A CENTRAL DE ATENDIMENTO PE
 # Dicionário para frases utilitárias que não são negativas nem autorizações.
 FERRAMENTAS_TEXTO = {
     'REEMBOLSO': {
-        'nome': 'ORIENTAÇÃO PARA REEMBOLSO',
+        'nome': 'REEMBOLSO PARA PPO',
         'fraseologia': """
-PREZADO(A) [_NM_BENEFICIARIO_],
+PREZADO(A) SR(A). [_NM_BENEFICIARIO_],
 
-A SOLICITAÇÃO REGISTRADA NO PROTOCOLO [_NU_PROTOCOLO_] NÃO PODE SER TRATADA POR ESTE CANAL.
+NÚMERO DO PROTOCOLO: [_NU_PROTOCOLO_]
 
-PARA PROSSEGUIR COM O PEDIDO DE REEMBOLSO, ENVIE A DOCUMENTAÇÃO DIRETAMENTE PARA O E-MAIL: REEMBOLSONDISPRJ@HAPVIDA.COM.BR
+Informamos que as solicitações de reembolso devem ser realizadas exclusivamente por meio do Portal GNDI.
 
-EM CASO DE DÚVIDAS, ENTRE EM CONTATO COM A NOSSA CENTRAL DE ATENDIMENTO PELOS NÚMEROS: 0800 463 4648, 4090 1740 OU 0800 409 1740.
+Para sua conveniência, acesse:
+
+Os canais de atendimento aos beneficiários:
+
+->Aplicativo Hapvida NotreDame
+->Disponível para Android e iOS
+ 
+-> Portal do Beneficiário
+-> www.gndi.com.br
+
+No ambiente digital, será possível acompanhar o status da solicitação e obter informações detalhadas sobre o andamento do reembolso.
+
+Em caso de dúvidas, nossa equipe de atendimento permanece à disposição pelos canais oficiais da operadora: 4090-1740, 0800 409 1740 OU 0800 463 4648.
 """
     }
 }
@@ -614,17 +626,17 @@ def get_user_confirmation():
 # negativas e orientações, com a opção de copiar o texto para a área de transferência.
 
 def gerar_texto_reembolso():
-    """Gera, exibe e copia a fraseologia para orientação de reembolso."""
+    """Gera, exibe e copia a fraseologia para orientação de reembolso para PPO."""
     try:
         frase_reembolso = FERRAMENTAS_TEXTO['REEMBOLSO']['fraseologia']
         pyperclip.copy(frase_reembolso)  # Copia para a área de transferência.
-        print(f"\n{Colors.BATMAN_YELLOW}✓ Texto de Reembolso copiado para a área de transferência!{Colors.ENDC}")
+        print(f"\n{Colors.BATMAN_YELLOW}✓ Texto de Reembolso para PPO copiado para a área de transferência!{Colors.ENDC}")
         # Exibe o texto gerado no terminal.
         print(f"\n{Colors.BOLD}{Colors.BATMAN_YELLOW}----------------------------------------{Colors.ENDC}")
         print(f"{Colors.GOTHAM_TEXT}{frase_reembolso}{Colors.ENDC}")
         print(f"{Colors.BOLD}{Colors.BATMAN_YELLOW}----------------------------------------{Colors.ENDC}")
     except Exception as e:
-        print(f"{Colors.BATMAN_YELLOW}Erro ao gerar texto de reembolso: {e}{Colors.ENDC}")
+        print(f"{Colors.BATMAN_YELLOW}Erro ao gerar texto de reembolso para PPO: {e}{Colors.ENDC}")
 
 
 def gerar_fraseologia_positiva():
@@ -884,7 +896,7 @@ def exibir_menu_ferramentas_texto(terminal_width):
         print(
             f"  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [N]{Colors.ENDC} {Colors.GOTHAM_TEXT}Gerar Fraseologia de Negativa{Colors.ENDC}")
         print(
-            f"  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [R]{Colors.ENDC} {Colors.GOTHAM_TEXT}Orientação para Reembolso{Colors.ENDC}")
+            f"  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [R]{Colors.ENDC} {Colors.GOTHAM_TEXT}Reembolso para PPO{Colors.ENDC}")
         print(
             f"  {Colors.BOLD}{Colors.BATMAN_YELLOW}► [T]{Colors.ENDC} {Colors.GOTHAM_TEXT}Ferramentas de Finalização{Colors.ENDC}")
         print(
